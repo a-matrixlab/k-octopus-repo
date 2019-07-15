@@ -42,6 +42,7 @@ import org.lisapark.koctopus.compute.source.RedisQuittokenSource;
 import org.lisapark.koctopus.compute.source.SqlQuerySource;
 import org.lisapark.koctopus.compute.source.TestRandomBinarySource;
 import org.lisapark.koctopus.compute.source.TestSource;
+import org.lisapark.koctopus.compute.source.TestSourceRedis;
 
 public abstract class AbstractOctopusRepository
         implements OctopusRepository {
@@ -63,6 +64,7 @@ public abstract class AbstractOctopusRepository
                     RTCSource.newTemplate(),                
                     SqlQuerySource.newTemplate(),
                     TestSource.newTemplate(),
+                    TestSourceRedis.newTemplate(),
                     TestRandomBinarySource.newTemplate()
         });
     }
