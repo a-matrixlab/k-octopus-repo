@@ -19,8 +19,6 @@ package org.lisapark.koctopus.repo;
 import org.lisapark.koctopus.core.OctopusRepository;
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Set;
-import org.lisapark.koctopus.core.ProcessingModel;
 import org.lisapark.koctopus.core.processor.Processor;
 import org.lisapark.koctopus.compute.processor.crossing.Crossing;
 import org.lisapark.koctopus.compute.processor.forecast.ForecastSRM;
@@ -33,6 +31,7 @@ import org.lisapark.koctopus.compute.pipe.RTCcontroller;
 import org.lisapark.koctopus.compute.processor.sma.Sma;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.compute.sink.ConsoleSink;
+import org.lisapark.koctopus.compute.sink.ConsoleSinkRedis;
 import org.lisapark.koctopus.compute.sink.DatabaseSink;
 import org.lisapark.koctopus.core.source.external.ExternalSource;
 import org.lisapark.koctopus.compute.source.GdeltZipSource;
@@ -50,37 +49,38 @@ public abstract class AbstractOctopusRepository
     @Override
     public List<ExternalSink> getAllExternalSinkTemplates() {
         return Lists.newArrayList(new ExternalSink[]{
-                    ConsoleSink.newTemplate(),                 
-                    DatabaseSink.newTemplate()
-                    });
+            ConsoleSink.newTemplate(),
+            ConsoleSinkRedis.newTemplate(),
+            DatabaseSink.newTemplate()
+        });
     }
 
     @Override
     public List<ExternalSource> getAllExternalSourceTemplates() {
         return Lists.newArrayList(new ExternalSource[]{
-                    KickStarterSource.newTemplate(),
-                    GdeltZipSource.newTemplate(),
-                    RedisQuittokenSource.newTemplate(),
-                    RTCSource.newTemplate(),                
-                    SqlQuerySource.newTemplate(),
-                    TestSource.newTemplate(),
-                    TestSourceRedis.newTemplate(),
-                    TestRandomBinarySource.newTemplate()
+            KickStarterSource.newTemplate(),
+            GdeltZipSource.newTemplate(),
+            RedisQuittokenSource.newTemplate(),
+            RTCSource.newTemplate(),
+            SqlQuerySource.newTemplate(),
+            TestSource.newTemplate(),
+            TestSourceRedis.newTemplate(),
+            TestRandomBinarySource.newTemplate()
         });
     }
 
     @Override
     public List<Processor> getAllProcessorTemplates() {
         return Lists.newArrayList(new Processor[]{
-                    Crossing.newTemplate(),
-                    ForecastSRM.newTemplate(),
-                    LinearRegressionProcessor.newTemplate(),
-                    PearsonsCorrelationProcessor.newTemplate(),
-                    PipeDouble.newTemplate(),
-                    PipeString.newTemplate(),
-                    PipeStringDouble.newTemplate(),
-                    RTCcontroller.newTemplate(),
-                    Sma.newTemplate()
+            Crossing.newTemplate(),
+            ForecastSRM.newTemplate(),
+            LinearRegressionProcessor.newTemplate(),
+            PearsonsCorrelationProcessor.newTemplate(),
+            PipeDouble.newTemplate(),
+            PipeString.newTemplate(),
+            PipeStringDouble.newTemplate(),
+            RTCcontroller.newTemplate(),
+            Sma.newTemplate()
         });
     }
 }

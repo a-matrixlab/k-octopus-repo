@@ -131,7 +131,7 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
         try {
             ObjectContainer client = getServer().openClient();
 
-            LOG.debug("Saving model {}...", model.getModelName());
+            LOG.debug("Saving model {}...", model.getName());
 
             client.store(model);
             client.commit();
@@ -153,7 +153,7 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
 
         try {
 
-            LOG.debug("Saving model {}...", model.getModelName());
+            LOG.debug("Saving model {}...", model.getName());
 
             client.store(model);
             client.commit();
@@ -177,7 +177,7 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
 
         try {
 
-            LOG.debug("Saving model {}...", model.getModelName());
+            LOG.debug("Saving model {}...", model.getName());
 
             client.store(model);
             client.commit();
@@ -522,7 +522,7 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
             ObjectSet set = client.query(new Predicate<ProcessingModel>() {
                 @Override
                 public boolean match(ProcessingModel model) {
-                    return model.getModelName().matches(query);
+                    return model.getName().matches(query);
                 }
             });
 
@@ -561,7 +561,7 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
             ObjectSet set = client.query(new Predicate<ProcessingModel>() {
                 @Override
                 public boolean match(ProcessingModel model) {
-                    return model.getModelName().matches(query);
+                    return model.getName().matches(query);
                 }
             });
 
