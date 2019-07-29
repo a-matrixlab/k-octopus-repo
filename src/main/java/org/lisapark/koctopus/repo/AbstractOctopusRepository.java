@@ -24,6 +24,7 @@ import org.lisapark.koctopus.compute.processor.crossing.Crossing;
 import org.lisapark.koctopus.compute.processor.forecast.ForecastSRM;
 import org.lisapark.koctopus.compute.processor.regression.LinearRegressionProcessor;
 import org.lisapark.koctopus.compute.processor.correlation.PearsonsCorrelationProcessor;
+import org.lisapark.koctopus.compute.processor.sma.SmaRedis;
 import org.lisapark.koctopus.compute.pipe.PipeDouble;
 import org.lisapark.koctopus.compute.pipe.PipeString;
 import org.lisapark.koctopus.compute.pipe.PipeStringDouble;
@@ -80,7 +81,8 @@ public abstract class AbstractOctopusRepository
             PipeString.newTemplate(),
             PipeStringDouble.newTemplate(),
             RTCcontroller.newTemplate(),
-            Sma.newTemplate()
+            Sma.newTemplate(),
+            SmaRedis.newTemplate()
         });
     }
 }
