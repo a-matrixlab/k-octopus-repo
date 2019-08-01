@@ -36,7 +36,7 @@ import org.joda.time.DateTime;
 import org.lisapark.koctopus.core.Input;
 import org.lisapark.koctopus.core.Output;
 import org.lisapark.koctopus.core.ProcessingModel;
-import org.lisapark.koctopus.core.processor.Processor;
+import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.Source;
 import org.lisapark.koctopus.core.source.external.ExternalSource;
@@ -305,8 +305,8 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
             Output output = externalSource.getOutput();
         });
 
-        Set<Processor> processors = model.getProcessors();
-        for (Processor processor : processors) {
+        Set<AbstractProcessor> processors = model.getProcessors();
+        for (AbstractProcessor processor : processors) {
             List<? extends Input> inputs = processor.getInputs();
             inputs.forEach((input) -> {
                 Source source = input.getSource();
@@ -360,9 +360,9 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
     }
 
     @Override
-    public Set<Processor> getProcessorTemplateByClassName(String name) throws RepositoryException {
+    public Set<AbstractProcessor> getProcessorTemplateByClassName(String name) throws RepositoryException {
 
-        Set<Processor> processors = null;
+        Set<AbstractProcessor> processors = null;
         try {
             processors = getProcessorTemplates(name);
         } catch (RepositoryException ex) {
@@ -472,7 +472,7 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
     }
 
     @Override
-    public Set<Processor> getProcessorTemplates(String name) throws RepositoryException {
+    public Set<AbstractProcessor> getProcessorTemplates(String name) throws RepositoryException {
 
         checkArgument(name != null, "name cannot be null");
         checkArgument(getServer() != null, "server cannot be null");
@@ -486,9 +486,9 @@ public class OctopusDb4oRepository extends AbstractOctopusRepository implements 
         try {
             ObjectContainer client = getServer().openClient();
 
-            Set set = Sets.newHashSet(client.query(new Predicate<Processor>() {
+            Set set = Sets.newHashSet(client.query(new Predicate<AbstractProcessor>() {
                 @Override
-                public boolean match(Processor processor) {
+                public boolean match(AbstractProcessor processor) {
                     return processor.getName().matches(query);
                 }
             }).iterator());

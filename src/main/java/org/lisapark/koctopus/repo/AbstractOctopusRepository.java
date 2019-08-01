@@ -19,7 +19,7 @@ package org.lisapark.koctopus.repo;
 import org.lisapark.koctopus.core.OctopusRepository;
 import com.google.common.collect.Lists;
 import java.util.List;
-import org.lisapark.koctopus.core.processor.Processor;
+import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.compute.processor.crossing.Crossing;
 import org.lisapark.koctopus.compute.processor.forecast.ForecastSRM;
 import org.lisapark.koctopus.compute.processor.regression.LinearRegressionProcessor;
@@ -71,8 +71,8 @@ public abstract class AbstractOctopusRepository
     }
 
     @Override
-    public List<Processor> getAllProcessorTemplates() {
-        return Lists.newArrayList(new Processor[]{
+    public List<AbstractProcessor> getAllProcessorTemplates() {
+        return Lists.newArrayList(new AbstractProcessor[]{
             Crossing.newTemplate(),
             ForecastSRM.newTemplate(),
             LinearRegressionProcessor.newTemplate(),
