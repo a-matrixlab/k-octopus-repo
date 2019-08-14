@@ -25,23 +25,15 @@ import org.lisapark.koctopus.compute.processor.forecast.ForecastSRM;
 import org.lisapark.koctopus.compute.processor.regression.LinearRegressionProcessor;
 import org.lisapark.koctopus.compute.processor.correlation.PearsonsCorrelationProcessor;
 import org.lisapark.koctopus.compute.processor.sma.SmaRedis;
-import org.lisapark.koctopus.compute.pipe.PipeDouble;
-import org.lisapark.koctopus.compute.pipe.PipeString;
-import org.lisapark.koctopus.compute.pipe.PipeStringDouble;
-import org.lisapark.koctopus.compute.pipe.RTCcontroller;
-import org.lisapark.koctopus.compute.processor.sma.Sma;
+import org.lisapark.koctopus.compute.processor.sma.SmaOld;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.compute.sink.ConsoleSink;
-import org.lisapark.koctopus.compute.sink.ConsoleSinkRedis;
+import org.lisapark.koctopus.compute.sink.ConsoleFromRedis;
 import org.lisapark.koctopus.compute.sink.DatabaseSink;
+import org.lisapark.koctopus.compute.source.DocDirSource;
 import org.lisapark.koctopus.core.source.external.ExternalSource;
 import org.lisapark.koctopus.compute.source.GdeltZipSource;
-import org.lisapark.koctopus.compute.source.KickStarterSource;
-import org.lisapark.koctopus.compute.source.RTCSource;
-import org.lisapark.koctopus.compute.source.RedisQuittokenSource;
 import org.lisapark.koctopus.compute.source.SqlQuerySource;
 import org.lisapark.koctopus.compute.source.TestRandomBinarySource;
-import org.lisapark.koctopus.compute.source.TestSource;
 import org.lisapark.koctopus.compute.source.TestSourceRedis;
 
 public abstract class AbstractOctopusRepository
@@ -50,8 +42,8 @@ public abstract class AbstractOctopusRepository
     @Override
     public List<ExternalSink> getAllExternalSinkTemplates() {
         return Lists.newArrayList(new ExternalSink[]{
-            ConsoleSink.newTemplate(),
-            ConsoleSinkRedis.newTemplate(),
+            //            ConsoleSink.newTemplate(),
+            ConsoleFromRedis.newTemplate(),
             DatabaseSink.newTemplate()
         });
     }
@@ -59,12 +51,13 @@ public abstract class AbstractOctopusRepository
     @Override
     public List<ExternalSource> getAllExternalSourceTemplates() {
         return Lists.newArrayList(new ExternalSource[]{
-            KickStarterSource.newTemplate(),
+            DocDirSource.newTemplate(),
+            //            KickStarterSource.newTemplate(),
             GdeltZipSource.newTemplate(),
-            RedisQuittokenSource.newTemplate(),
-            RTCSource.newTemplate(),
+            //            RedisQuittokenSource.newTemplate(),
+            //            RTCSource.newTemplate(),
             SqlQuerySource.newTemplate(),
-            TestSource.newTemplate(),
+            //            TestSource.newTemplate(),
             TestSourceRedis.newTemplate(),
             TestRandomBinarySource.newTemplate()
         });
@@ -77,11 +70,11 @@ public abstract class AbstractOctopusRepository
             ForecastSRM.newTemplate(),
             LinearRegressionProcessor.newTemplate(),
             PearsonsCorrelationProcessor.newTemplate(),
-            PipeDouble.newTemplate(),
-            PipeString.newTemplate(),
-            PipeStringDouble.newTemplate(),
-            RTCcontroller.newTemplate(),
-            Sma.newTemplate(),
+            //            PipeDouble.newTemplate(),
+            //            PipeString.newTemplate(),
+            //            PipeStringDouble.newTemplate(),
+            //            RTCcontroller.newTemplate(),
+            SmaOld.newTemplate(),
             SmaRedis.newTemplate()
         });
     }
