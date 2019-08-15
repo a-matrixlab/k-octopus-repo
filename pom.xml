@@ -53,10 +53,5 @@
             <artifactId>k-octopus-compute</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>k-octopus-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 </project>
