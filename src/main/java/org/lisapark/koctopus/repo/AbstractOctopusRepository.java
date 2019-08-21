@@ -27,8 +27,9 @@ import org.lisapark.koctopus.compute.processor.correlation.PearsonsCorrelationPr
 import org.lisapark.koctopus.compute.processor.sma.SmaRedis;
 import org.lisapark.koctopus.compute.processor.sma.SmaOld;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.compute.sink.ConsoleFromRedis;
+import org.lisapark.koctopus.compute.sink.lucene.LuceneBaseIndex;
 import org.lisapark.koctopus.compute.sink.DatabaseSink;
+import org.lisapark.koctopus.compute.sink.ConsoleFromRedis;
 import org.lisapark.koctopus.compute.source.DocDirSource;
 import org.lisapark.koctopus.core.source.external.ExternalSource;
 import org.lisapark.koctopus.compute.source.GdeltZipSource;
@@ -42,8 +43,8 @@ public abstract class AbstractOctopusRepository
     @Override
     public List<ExternalSink> getAllExternalSinkTemplates() {
         return Lists.newArrayList(new ExternalSink[]{
-            //            ConsoleSink.newTemplate(),
             ConsoleFromRedis.newTemplate(),
+            LuceneBaseIndex.newTemplate(),
             DatabaseSink.newTemplate()
         });
     }
