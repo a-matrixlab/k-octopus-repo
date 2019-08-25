@@ -45,7 +45,7 @@ public abstract class AbstractOctopusRepository
         return Lists.newArrayList(new ExternalSink[]{
             ConsoleFromRedis.newTemplate(),
             LuceneBaseIndex.newTemplate(),
-            DatabaseSink.newTemplate()
+//            DatabaseSink.newTemplate()
         });
     }
 
@@ -54,28 +54,28 @@ public abstract class AbstractOctopusRepository
         return Lists.newArrayList(new ExternalSource[]{
             DocDirSource.newTemplate(),
             //            KickStarterSource.newTemplate(),
-            GdeltZipSource.newTemplate(),
+//            GdeltZipSource.newTemplate(),
             //            RedisQuittokenSource.newTemplate(),
             //            RTCSource.newTemplate(),
-            SqlQuerySource.newTemplate(),
+//            SqlQuerySource.newTemplate(),
             //            TestSource.newTemplate(),
             TestSourceRedis.newTemplate(),
-            TestRandomBinarySource.newTemplate()
+//            TestRandomBinarySource.newTemplate()
         });
     }
 
     @Override
     public List<AbstractProcessor> getAllProcessorTemplates() {
         return Lists.newArrayList(new AbstractProcessor[]{
-            Crossing.newTemplate(),
-            ForecastSRM.newTemplate(),
-            LinearRegressionProcessor.newTemplate(),
-            PearsonsCorrelationProcessor.newTemplate(),
+//            Crossing.newTemplate(),
+//            ForecastSRM.newTemplate(),
+//            LinearRegressionProcessor.newTemplate(),
+//            PearsonsCorrelationProcessor.newTemplate(),
             //            PipeDouble.newTemplate(),
             //            PipeString.newTemplate(),
             //            PipeStringDouble.newTemplate(),
             //            RTCcontroller.newTemplate(),
-            SmaOld.newTemplate(),
+//            SmaOld.newTemplate(),
             SmaRedis.newTemplate()
         });
     }
