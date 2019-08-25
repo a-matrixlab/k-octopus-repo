@@ -25,5 +25,5 @@ There are direct inter-dependencies between these project in the order from 1 to
 All projects require Java 8. This limitation is due to commercial software that we are using in Designer (http://www.jidesoft.com/). The version 3.4.7 that we are using is not compatible with Java 9+.
 
 ## K-Octopus Repo installation
-From "octopus" directory run
-> git clone 
+By this time you should have octopus directory. From "octopus" directory run
+> git clone https://github.com/a-matrixlab/k-octopus-repo.git
