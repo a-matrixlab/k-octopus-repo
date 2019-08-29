@@ -20,22 +20,22 @@ import org.lisapark.koctopus.core.OctopusRepository;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
-import org.lisapark.koctopus.compute.processor.crossing.Crossing;
-import org.lisapark.koctopus.compute.processor.forecast.ForecastSRM;
-import org.lisapark.koctopus.compute.processor.regression.LinearRegressionProcessor;
-import org.lisapark.koctopus.compute.processor.correlation.PearsonsCorrelationProcessor;
-import org.lisapark.koctopus.compute.processor.sma.SmaRedis;
-import org.lisapark.koctopus.compute.processor.sma.SmaOld;
+import org.lisapark.koctopus.repo.processor.crossing.Crossing;
+import org.lisapark.koctopus.repo.processor.forecast.ForecastSRM;
+import org.lisapark.koctopus.repo.processor.regression.LinearRegressionProcessor;
+import org.lisapark.koctopus.repo.processor.correlation.PearsonsCorrelationProcessor;
+import org.lisapark.koctopus.repo.processor.sma.SmaRedis;
+import org.lisapark.koctopus.repo.processor.sma.SmaOld;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.compute.sink.lucene.LuceneBaseIndex;
-import org.lisapark.koctopus.compute.sink.DatabaseSink;
-import org.lisapark.koctopus.compute.sink.ConsoleFromRedis;
-import org.lisapark.koctopus.compute.source.DocDirSource;
+import org.lisapark.koctopus.repo.sink.lucene.LuceneBaseIndex;
+import org.lisapark.koctopus.repo.sink.DatabaseSink;
+import org.lisapark.koctopus.repo.sink.ConsoleFromRedis;
+import org.lisapark.koctopus.repo.source.DocDirSource;
 import org.lisapark.koctopus.core.source.external.ExternalSource;
-import org.lisapark.koctopus.compute.source.GdeltZipSource;
-import org.lisapark.koctopus.compute.source.SqlQuerySource;
-import org.lisapark.koctopus.compute.source.TestRandomBinarySource;
-import org.lisapark.koctopus.compute.source.TestSourceRedis;
+import org.lisapark.koctopus.repo.source.GdeltZipSource;
+import org.lisapark.koctopus.repo.source.SqlQuerySource;
+import org.lisapark.koctopus.repo.source.TestRandomBinarySource;
+import org.lisapark.koctopus.repo.source.TestSourceRedis;
 
 public abstract class AbstractOctopusRepository
         implements OctopusRepository {

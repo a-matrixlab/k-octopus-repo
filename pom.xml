@@ -27,7 +27,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>k-octopus-compute</artifactId>
+            <artifactId>k-octopus-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
