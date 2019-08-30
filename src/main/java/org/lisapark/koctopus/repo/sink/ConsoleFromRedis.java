@@ -22,7 +22,6 @@ import com.google.common.collect.Maps;
 import io.lettuce.core.StreamMessage;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.lisapark.koctopus.core.AbstractNode;
 import org.lisapark.koctopus.core.Input;
 import org.lisapark.koctopus.core.Persistable;
 import org.lisapark.koctopus.core.ValidationException;
@@ -42,18 +41,18 @@ import org.lisapark.koctopus.core.runtime.redis.StreamReference;
 import org.lisapark.koctopus.core.sink.external.CompiledExternalSink;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 
 /**
  * @author alexmy
  */
 @Persistable
-public class ConsoleFromRedis extends AbstractNode implements ExternalSink {
+public class ConsoleFromRedis extends AbstractExternalSink {
 
     private static final String DEFAULT_NAME = "Console for Redis";
     private static final String DEFAULT_DESCRIPTION = "Console Output from Redis";
     private static final String DEFAULT_INPUT = "Input";
 
-    private static final int TRANSPORT_PARAMETER_ID = 0;
     private static final int ATTRIBUTE_LIST_PARAMETER_ID = 1;
     private static final int PAGE_SIZE_PARAMETER_ID = 2;
     private static final String ATTRIBUTE_LIST = "Show Attributes";
@@ -85,12 +84,12 @@ public class ConsoleFromRedis extends AbstractNode implements ExternalSink {
     }
 
     private ConsoleFromRedis(UUID id, ConsoleFromRedis copyFromNode) {
-        super(id, copyFromNode);
+        super(id, copyFromNode.getName(), copyFromNode.getDescription());
         input = copyFromNode.getInput().copyOf();
     }
 
     private ConsoleFromRedis(ConsoleFromRedis copyFromNode) {
-        super(copyFromNode);
+        super(copyFromNode.getId(),copyFromNode.getName(), copyFromNode.getDescription());
         this.input = copyFromNode.input.copyOf();
     }
 
@@ -159,11 +158,7 @@ public class ConsoleFromRedis extends AbstractNode implements ExternalSink {
 
     public static ConsoleFromRedis newTemplate(UUID sinkId) {
         ConsoleFromRedis consoleSink = new ConsoleFromRedis(sinkId, DEFAULT_NAME, DEFAULT_DESCRIPTION);
-        consoleSink.addParameter(
-                Parameter.stringParameterWithIdAndName(TRANSPORT_PARAMETER_ID, "Redis URL").
-                        description("Redis URL.").
-                        defaultValue("redis://localhost"));
-        
+                
         consoleSink.addParameter(
                 Parameter.stringParameterWithIdAndName(ATTRIBUTE_LIST_PARAMETER_ID, ATTRIBUTE_LIST)
                         .description(ATTRIBUTE_LIST_DESCRIPTION)

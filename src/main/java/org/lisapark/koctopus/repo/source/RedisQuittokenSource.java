@@ -32,7 +32,7 @@ import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.parameter.Parameter;
 import org.lisapark.koctopus.core.runtime.ProcessingRuntime;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
 
 /**
@@ -40,7 +40,7 @@ import org.lisapark.koctopus.core.runtime.StreamingRuntime;
  * @author alex (alexmy@lisa-park.com)
  */
 @Persistable
-public class RedisQuittokenSource extends ExternalSource {
+public class RedisQuittokenSource extends AbstractExternalSource {
 
     private static final String DEFAULT_NAME = "Radis Quittoken Source";
     private static final String DEFAULT_DESCRIPTION = "Generates quit token to stop all Octopus models that are listening to the channel specified in corresponding Resin Publisher Sink of a given model.";
@@ -108,7 +108,7 @@ public class RedisQuittokenSource extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         return new CompiledRedisSource((RedisQuittokenSource) source);
     }
 

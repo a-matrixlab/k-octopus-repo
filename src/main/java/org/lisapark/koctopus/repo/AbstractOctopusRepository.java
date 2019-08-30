@@ -31,7 +31,7 @@ import org.lisapark.koctopus.repo.sink.lucene.LuceneBaseIndex;
 import org.lisapark.koctopus.repo.sink.DatabaseSink;
 import org.lisapark.koctopus.repo.sink.ConsoleFromRedis;
 import org.lisapark.koctopus.repo.source.DocDirSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.source.GdeltZipSource;
 import org.lisapark.koctopus.repo.source.SqlQuerySource;
 import org.lisapark.koctopus.repo.source.TestRandomBinarySource;
@@ -50,8 +50,8 @@ public abstract class AbstractOctopusRepository
     }
 
     @Override
-    public List<ExternalSource> getAllExternalSourceTemplates() {
-        return Lists.newArrayList(new ExternalSource[]{
+    public List<AbstractExternalSource> getAllExternalSourceTemplates() {
+        return Lists.newArrayList(new AbstractExternalSource[]{
             DocDirSource.newTemplate(),
             //            KickStarterSource.newTemplate(),
 //            GdeltZipSource.newTemplate(),

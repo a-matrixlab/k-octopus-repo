@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.util.Booleans;
 import org.lisapark.koctopus.core.ProcessingException;
 import org.lisapark.koctopus.core.graph.Gnode;
@@ -51,7 +51,7 @@ import org.lisapark.koctopus.core.runtime.StreamingRuntime;
  * @author dave sinclair(david.sinclair@lisa-park.com)
  */
 @Persistable
-public class GdeltZipSource extends ExternalSource {
+public class GdeltZipSource extends AbstractExternalSource {
     
     static final Logger LOG = Logger.getLogger(GdeltZipSource.class.getName());
 
@@ -199,7 +199,7 @@ public class GdeltZipSource extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         return new CompiledTestSource((GdeltZipSource) source);
     }
 

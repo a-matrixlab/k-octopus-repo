@@ -77,7 +77,6 @@ public class SmaRedis extends AbstractProcessor<Double> {
      * identifier of the parameter.
      */
     private static final int WINDOW_LENGTH_PARAMETER_ID = 2;
-    private static final int TRANSPORT_PARAMETER_ID = 1;
 
     /**
      * Sma takes a single input
@@ -157,11 +156,7 @@ public class SmaRedis extends AbstractProcessor<Double> {
                         defaultValue(10).required(true).
                         constraint(Constraints.integerConstraintWithMinimumAndMessage(1, "Time window should be greater than 1."))
         );
-        sma.addParameter(
-                Parameter.stringParameterWithIdAndName(TRANSPORT_PARAMETER_ID, "Redis URL").
-                        description("Redis URL.").
-                        defaultValue("redis://localhost"));
-
+        
         // only a single double input
         sma.addInput(
                 ProcessorInput.doubleInputWithId(INPUT_ID).name("Input").description(DEFAULT_INPUT_DESCRIPTION)

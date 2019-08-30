@@ -38,14 +38,14 @@ import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.graph.GraphUtils;
 import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
 
 /**
  * @author dave sinclair(david.sinclair@lisa-park.com)
  */
 @Persistable
-public class TestSourceRedis extends ExternalSource {
+public class TestSourceRedis extends AbstractExternalSource {
     
     static final Logger LOG = Logger.getLogger(TestSourceRedis.class.getName());
     
@@ -53,7 +53,6 @@ public class TestSourceRedis extends ExternalSource {
     private static final String DEFAULT_DESCRIPTION = "Generate source data according to the provided attribute list.";
     
     private static final int NUMBER_OF_EVENTS_PARAMETER_ID = 1;
-    private static final int TRANSPORT_PARAMETER_ID = 2;
     
     private static void initAttributeList(TestSourceRedis testSource) throws ValidationException {
         testSource.getOutput().addAttribute(Attribute.newAttribute(Integer.class, "Att"));
@@ -77,10 +76,6 @@ public class TestSourceRedis extends ExternalSource {
     
     public Integer getNumberOfEvents() {
         return getParameter(NUMBER_OF_EVENTS_PARAMETER_ID).getValueAsInteger();
-    }
-    
-    public String getRedisUrl() {
-        return getParameterValueAsString(TRANSPORT_PARAMETER_ID);
     }
     
     @Override
@@ -117,10 +112,6 @@ public class TestSourceRedis extends ExternalSource {
                         defaultValue(100).
                         constraint(Constraints.integerConstraintWithMinimumAndMessage(1,
                                 "Number of events has to be greater than zero.")));
-        testSource.addParameter(
-                Parameter.stringParameterWithIdAndName(TRANSPORT_PARAMETER_ID, "Redis URL").
-                        description("Redis URL.").
-                        defaultValue("redis://localhost"));
         try {
             initAttributeList(testSource);
         } catch (ValidationException ex) {
@@ -136,7 +127,7 @@ public class TestSourceRedis extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         return new CompiledTestSource((TestSourceRedis)source);
     }
     

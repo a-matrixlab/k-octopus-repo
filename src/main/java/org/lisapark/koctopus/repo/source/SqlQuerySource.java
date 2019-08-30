@@ -42,13 +42,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import static com.google.common.base.Preconditions.checkState;
 import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
 
 /**
- * This class is an {@link ExternalSource} that is used to access relational databases. It can be configured with
+ * This class is an {@link AbstractExternalSource} that is used to access relational databases. It can be configured with
  * a JDBC Url for the database, username, password, Driver fully qualified class name, and a query to execute.
  * 
  * Currently, the source uses the {@link org.lisapark.octopus.core.Output#getEventType()} to get the names of the
@@ -58,7 +58,7 @@ import org.lisapark.koctopus.core.runtime.StreamingRuntime;
  * @author dave sinclair(david.sinclair@lisa-park.com)
  */
 @Persistable
-public class SqlQuerySource extends ExternalSource {
+public class SqlQuerySource extends AbstractExternalSource {
     private static final String DEFAULT_NAME = "Database Source";
     private static final String DEFAULT_DESCRIPTION = "Access to Database using SQL query.";
     private static final int URL_PARAMETER_ID = 1;
@@ -164,7 +164,7 @@ public class SqlQuerySource extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         validate();
         return new CompiledSqlQuerySource((SqlQuerySource) source);
     }

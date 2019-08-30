@@ -41,7 +41,7 @@ import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.graph.GraphUtils;
 import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
 
@@ -49,7 +49,7 @@ import org.lisapark.koctopus.core.runtime.StreamingRuntime;
  * @author dave sinclair(david.sinclair@lisa-park.com)
  */
 @Persistable
-public class DocDirSource extends ExternalSource {
+public class DocDirSource extends AbstractExternalSource {
 
     static final Logger LOG = Logger.getLogger(DocDirSource.class.getName());
 
@@ -152,7 +152,7 @@ public class DocDirSource extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         return new CompiledDocDirSource((DocDirSource) source);
     }
 

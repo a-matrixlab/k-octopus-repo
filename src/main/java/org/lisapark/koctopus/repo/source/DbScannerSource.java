@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import static com.google.common.base.Preconditions.checkState;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +52,7 @@ import org.lisapark.koctopus.core.runtime.StreamingRuntime;
  *
  * @author Alex Mylnikov (alexmy@lisa-park.com)
  */
-public class DbScannerSource  extends ExternalSource {
+public class DbScannerSource  extends AbstractExternalSource {
     
     static final Logger LOG = Logger.getLogger(DbScannerSource.class.getName());
         
@@ -174,7 +174,7 @@ public class DbScannerSource  extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         validate();
         return new CompiledDbScannerSource((DbScannerSource) source);
     }

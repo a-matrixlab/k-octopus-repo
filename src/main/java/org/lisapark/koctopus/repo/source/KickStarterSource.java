@@ -40,7 +40,7 @@ import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.parameter.Parameter;
 import org.lisapark.koctopus.core.runtime.ProcessingRuntime;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
-import org.lisapark.koctopus.core.source.external.ExternalSource;
+import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
 
 /**
@@ -48,7 +48,7 @@ import org.lisapark.koctopus.core.runtime.StreamingRuntime;
  * @author alex (alexmy@lisa-park.com)
  */
 @Persistable
-public class KickStarterSource extends ExternalSource {
+public class KickStarterSource extends AbstractExternalSource {
     
     static final Logger LOG = Logger.getLogger(KickStarterSource.class.getName());
 
@@ -159,7 +159,7 @@ public class KickStarterSource extends ExternalSource {
     }
 
     @Override
-    public <T extends ExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
+    public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
         return new CompiledModelSource((KickStarterSource) source);
     }
 

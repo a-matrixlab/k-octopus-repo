@@ -22,17 +22,11 @@ import com.google.common.collect.Maps;
 import io.lettuce.core.StreamMessage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.lisapark.koctopus.core.AbstractNode;
 import org.lisapark.koctopus.core.Input;
 import org.lisapark.koctopus.core.Persistable;
 import org.lisapark.koctopus.core.ValidationException;
@@ -53,7 +47,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.lisapark.koctopus.ProgrammerException;
-import org.lisapark.koctopus.core.event.Attribute;
 import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.graph.GraphUtils;
 import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
@@ -63,19 +56,20 @@ import org.lisapark.koctopus.core.runtime.redis.StreamReference;
 import org.lisapark.koctopus.core.sink.external.CompiledExternalSink;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 
 /**
  * @author alexmy
  */
 @Persistable
-public class LuceneBaseIndex extends AbstractNode implements ExternalSink {
+public class LuceneBaseIndex extends AbstractExternalSink {
 
     private static final String DEFAULT_NAME = "LuceneBaseIndex";
     private static final String DEFAULT_DESCRIPTION = "Performs Lucene Indexing of documents.";
     private static final String DEFAULT_INPUT = "Input";
 
-    private static final int LUCENE_INDEX_ID = 0;
-    private static final int TRANSPORT_PARAMETER_ID = 1;
+//    private static final int LUCENE_INDEX_ID = 0;
+//    private static final int TRANSPORT_PARAMETER_ID = 1;
     private static final int PAGE_SIZE_PARAMETER_ID = 2;
     private static final int FILE_ATTRIBUTE_ID = 3;
 
@@ -103,22 +97,13 @@ public class LuceneBaseIndex extends AbstractNode implements ExternalSink {
     }
 
     private LuceneBaseIndex(UUID id, LuceneBaseIndex copyFromNode) {
-        super(id, copyFromNode);
+        super(id, copyFromNode.getName(), copyFromNode.getDescription());
         input = copyFromNode.getInput().copyOf();
     }
 
     private LuceneBaseIndex(LuceneBaseIndex copyFromNode) {
-        super(copyFromNode);
+        super(copyFromNode.getId(), copyFromNode.getName(), copyFromNode.getDescription());
         this.input = copyFromNode.input.copyOf();
-    }
-
-    @SuppressWarnings("unchecked")
-    public void setLuceneIndex(String luceneIndex) throws ValidationException {
-        getParameter(LUCENE_INDEX_ID).setValue(luceneIndex);
-    }
-
-    public String getLuceneIndex() {
-        return getParameter(LUCENE_INDEX_ID).getValueAsString();
     }
 
     @SuppressWarnings("unchecked")
@@ -185,13 +170,13 @@ public class LuceneBaseIndex extends AbstractNode implements ExternalSink {
 
     public static LuceneBaseIndex newTemplate(UUID sinkId) {
         LuceneBaseIndex luceneBaseIndex = new LuceneBaseIndex(sinkId, DEFAULT_NAME, DEFAULT_DESCRIPTION);
-        luceneBaseIndex.addParameter(
-                Parameter.stringParameterWithIdAndName(TRANSPORT_PARAMETER_ID, "Redis URL").
-                        description("Redis URL.").
-                        defaultValue("redis://localhost"));
-        luceneBaseIndex.addParameter(Parameter.stringParameterWithIdAndName(LUCENE_INDEX_ID, "Docs Lucene Index")
-                .description("Path to Document Lucene Index Directory.").required(true).defaultValue("")
-        );
+//        luceneBaseIndex.addParameter(
+//                Parameter.stringParameterWithIdAndName(TRANSPORT_PARAMETER_ID, "Redis URL").
+//                        description("Redis URL.").
+//                        defaultValue("redis://localhost"));
+//        luceneBaseIndex.addParameter(Parameter.stringParameterWithIdAndName(LUCENE_INDEX_ID, "Docs Lucene Index")
+//                .description("Path to Document Lucene Index Directory.").required(true).defaultValue("")
+//        );
         luceneBaseIndex.addParameter(
                 Parameter.integerParameterWithIdAndName(PAGE_SIZE_PARAMETER_ID, PAGE_SIZE)
                         .description(PAGE_SIZE_DESCRIPTION).defaultValue(100)
