@@ -51,7 +51,7 @@ import org.lisapark.koctopus.core.graph.api.Vocabulary;
 import org.lisapark.koctopus.core.parameter.Parameter;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.processor.ProcessorOutput;
-import org.lisapark.koctopus.core.runtime.redis.StreamReference;
+import org.lisapark.koctopus.core.transport.TransportReference;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.Source;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
@@ -138,7 +138,7 @@ public class GraphUtils {
                         input.connectSource(exsource);
                     }
 
-                    StreamReference ref = new StreamReference();
+                    TransportReference ref = new TransportReference();
                     ref.setReferenceClass(_input.getSourceClassName());
                     ref.setReferenceId(_input.getSourceId());
                     ref.setAttributes(_input.getAttributes());
@@ -187,7 +187,7 @@ public class GraphUtils {
                         exsource.setId(UUID.fromString(_input.getSourceId()));
                         input.connectSource(exsource);
                     }
-                    StreamReference ref = new StreamReference();
+                    TransportReference ref = new TransportReference();
                     ref.setReferenceClass(sourceClassName);
                     ref.setReferenceId(_input.getSourceId());
                     ref.setAttributes(_input.getAttributes());

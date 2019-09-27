@@ -49,7 +49,7 @@ import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import static com.google.common.base.Preconditions.checkState;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  * This class is an {@link AbstractExternalSource} that is used to access relational databases. It can be configured with

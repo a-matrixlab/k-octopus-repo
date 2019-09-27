@@ -44,8 +44,8 @@ import org.lisapark.koctopus.core.processor.CompiledProcessor;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.processor.ProcessorInput;
 import org.lisapark.koctopus.core.processor.ProcessorOutput;
-import org.lisapark.koctopus.core.runtime.redis.StreamReference;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.TransportReference;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  * This {@link AbstractProcessor} is used for computing a Simple Moving Average
@@ -84,7 +84,7 @@ public class SmaRedis extends AbstractProcessor<Double> {
     private static final int INPUT_ID = 1;
     private static final int OUTPUT_ID = 1;
 
-    protected Map<String, StreamReference> procrefs = new HashMap<>();
+    protected Map<String, TransportReference> procrefs = new HashMap<>();
 
     public SmaRedis() {
         super(Generators.timeBasedGenerator().generate(), DEFAULT_NAME, DEFAULT_INPUT_DESCRIPTION);
@@ -208,12 +208,12 @@ public class SmaRedis extends AbstractProcessor<Double> {
     }
 
     @Override
-    public Map<String, StreamReference> getReferences() {
+    public Map<String, TransportReference> getReferences() {
         return procrefs;
     }
 
     @Override
-    public void setReferences(Map<String, StreamReference> procrefs) {
+    public void setReferences(Map<String, TransportReference> procrefs) {
         this.procrefs = procrefs;
     }
 

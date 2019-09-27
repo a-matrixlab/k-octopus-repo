@@ -45,7 +45,7 @@ import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.util.Booleans;
 import org.lisapark.koctopus.core.ProcessingException;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  * @author alexmy (alexmy@lisa-park.com)

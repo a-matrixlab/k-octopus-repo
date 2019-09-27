@@ -41,8 +41,8 @@ import org.lisapark.koctopus.core.source.Source;
 import org.lisapark.koctopus.repo.util.Connections;
 import org.lisapark.koctopus.repo.util.DaoUtils;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.runtime.redis.StreamReference;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.TransportReference;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  *
@@ -77,7 +77,7 @@ public class DatabaseSink extends AbstractNode implements ExternalSink {
     private static final String DEFAULT_INPUT = "Input data";
 
     private final Input<Event> input;
-    protected Map<String, StreamReference> sourceref = new HashMap<>();
+    protected Map<String, TransportReference> sourceref = new HashMap<>();
     
     private CompiledDatabaseSink compiledExternalSink;
 
@@ -215,12 +215,12 @@ public class DatabaseSink extends AbstractNode implements ExternalSink {
     }
 
     @Override
-    public Map<String, StreamReference> getReferences() {
+    public Map<String, TransportReference> getReferences() {
         return sourceref;
     }
 
     @Override
-    public void setReferences(Map<String, StreamReference> sourceref) {
+    public void setReferences(Map<String, TransportReference> sourceref) {
         this.sourceref = sourceref;
     }
 

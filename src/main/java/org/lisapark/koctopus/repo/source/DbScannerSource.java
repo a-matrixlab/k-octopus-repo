@@ -46,7 +46,7 @@ import static com.google.common.base.Preconditions.checkState;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  *

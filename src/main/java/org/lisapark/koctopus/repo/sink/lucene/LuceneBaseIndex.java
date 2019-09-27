@@ -52,10 +52,10 @@ import org.lisapark.koctopus.repo.graph.GraphUtils;
 import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
 import org.lisapark.koctopus.core.lucene.BaseDocLuceneIndex;
 import org.lisapark.koctopus.core.parameter.Parameter;
-import org.lisapark.koctopus.core.runtime.redis.StreamReference;
+import org.lisapark.koctopus.core.transport.TransportReference;
 import org.lisapark.koctopus.core.sink.external.CompiledExternalSink;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 
 /**
@@ -80,7 +80,7 @@ public class LuceneBaseIndex extends AbstractExternalSink {
 
     private final Input<Event> input;
 
-    protected Map<String, StreamReference> sourcerefs = new HashMap<>();
+    protected Map<String, TransportReference> sourcerefs = new HashMap<>();
 
     public LuceneBaseIndex() {
         super(Generators.timeBasedGenerator().generate(), DEFAULT_NAME, DEFAULT_DESCRIPTION);
@@ -198,12 +198,12 @@ public class LuceneBaseIndex extends AbstractExternalSink {
     }
 
     @Override
-    public Map<String, StreamReference> getReferences() {
+    public Map<String, TransportReference> getReferences() {
         return sourcerefs;
     }
 
     @Override
-    public void setReferences(Map<String, StreamReference> sourceref) {
+    public void setReferences(Map<String, TransportReference> sourceref) {
         this.sourcerefs = sourceref;
     }
 

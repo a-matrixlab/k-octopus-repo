@@ -37,10 +37,10 @@ import java.util.stream.Collectors;
 import org.lisapark.koctopus.core.event.Attribute;
 import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.parameter.Parameter;
-import org.lisapark.koctopus.core.runtime.redis.StreamReference;
+import org.lisapark.koctopus.core.transport.TransportReference;
 import org.lisapark.koctopus.core.sink.external.CompiledExternalSink;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  * @author dave sinclair(david.sinclair@lisa-park.com)
@@ -58,7 +58,7 @@ public class ConsoleSinkOld extends AbstractNode implements ExternalSink {
     
     private final Input<Event> input;
     
-    protected Map<String, StreamReference> sourceref = new HashMap<>();
+    protected Map<String, TransportReference> sourceref = new HashMap<>();
 
     private ConsoleSinkOld(UUID id, String name, String description) {
         super(id, name, description);
@@ -141,12 +141,12 @@ public class ConsoleSinkOld extends AbstractNode implements ExternalSink {
     }
 
     @Override
-    public Map<String,StreamReference> getReferences() {
+    public Map<String,TransportReference> getReferences() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setReferences(Map<String,StreamReference> sourceref) {
+    public void setReferences(Map<String,TransportReference> sourceref) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

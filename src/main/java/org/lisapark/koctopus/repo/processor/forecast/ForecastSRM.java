@@ -38,8 +38,8 @@ import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.processor.ProcessorInput;
 import org.lisapark.koctopus.core.processor.ProcessorOutput;
 import org.lisapark.koctopus.core.runtime.ProcessorContext;
-import org.lisapark.koctopus.core.runtime.redis.StreamReference;
-import org.lisapark.koctopus.core.runtime.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.TransportReference;
+import org.lisapark.koctopus.core.transport.StreamingRuntime;
 
 /**
  *
@@ -277,12 +277,12 @@ public class ForecastSRM extends AbstractProcessor<Double> {
     }
 
     @Override
-    public Map<String, StreamReference> getReferences() {
+    public Map<String, TransportReference> getReferences() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setReferences(Map<String, StreamReference> sourceref) {
+    public void setReferences(Map<String, TransportReference> sourceref) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
