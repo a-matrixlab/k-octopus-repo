@@ -48,7 +48,7 @@ import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.runtime.StreamingRuntime;
 
 /**
- * @author dave sinclair(david.sinclair@lisa-park.com)
+ * @author alexmy (alexmy@lisa-park.com)
  */
 @Persistable
 public class GdeltZipSource extends AbstractExternalSource {
@@ -195,15 +195,15 @@ public class GdeltZipSource extends AbstractExternalSource {
 
     @Override
     public CompiledExternalSource compile() throws ValidationException {
-        return new CompiledTestSource(copyOf());
+        return new CompiledGdeltSource(copyOf());
     }
 
     @Override
     public <T extends AbstractExternalSource> CompiledExternalSource compile(T source) throws ValidationException {
-        return new CompiledTestSource((GdeltZipSource) source);
+        return new CompiledGdeltSource((GdeltZipSource) source);
     }
 
-    static class CompiledTestSource implements CompiledExternalSource {
+    static class CompiledGdeltSource implements CompiledExternalSource {
         private final GdeltZipSource source;
         /**
          * Running is declared volatile because it may be access my different
@@ -211,7 +211,7 @@ public class GdeltZipSource extends AbstractExternalSource {
          */
         private volatile boolean running;
 
-        public CompiledTestSource(GdeltZipSource source) {
+        public CompiledGdeltSource(GdeltZipSource source) {
             this.source = source;
         }
 
@@ -250,9 +250,9 @@ public class GdeltZipSource extends AbstractExternalSource {
                                 }
                             }
                         } catch (IllegalArgumentException iae) {
-                            System.err.println(iae.getMessage());
+                            LOG.log(Level.SEVERE, iae.getMessage());
                         } catch (IOException e) {                            
-                            System.err.println("Unhandled exception:");
+                            LOG.log(Level.SEVERE, "Unhandled exception: {0}", e.getMessage());
                         } finally {
                             if (input != null) {
                                 input.close();
@@ -261,7 +261,7 @@ public class GdeltZipSource extends AbstractExternalSource {
                     }
                 }
             } catch (final IOException ioe) {
-                System.err.println("Unhandled exception:");
+                LOG.log(Level.SEVERE, "Unhandled exception: {0}", ioe.getMessage());
             }
         }
 
@@ -307,7 +307,7 @@ public class GdeltZipSource extends AbstractExternalSource {
                             throw new IllegalArgumentException(String.format("Unknown attribute type %s", type));
                         }
                     } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
+                        LOG.log(Level.SEVERE, "IllegalArgumentException: {0}", e.getMessage());
                         attributeValues.put(attributeName, null);
                     }
                 }
