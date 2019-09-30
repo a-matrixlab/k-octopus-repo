@@ -40,7 +40,7 @@ import org.lisapark.koctopus.core.parameter.Parameter;
 import org.lisapark.koctopus.core.transport.TransportReference;
 import org.lisapark.koctopus.core.sink.external.CompiledExternalSink;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * @author dave sinclair(david.sinclair@lisa-park.com)
@@ -237,7 +237,7 @@ public class ConsoleSinkOld extends AbstractNode implements ExternalSink {
         }
 
         @Override
-        public Object processEvent(StreamingRuntime runtime) {
+        public Object processEvent(Transport runtime) {
             // TODO. remove when transition completed
             throw new UnsupportedOperationException("Not supported yet."); 
             //To change body of generated methods, choose Tools | Templates.

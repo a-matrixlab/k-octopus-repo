@@ -42,7 +42,7 @@ import org.lisapark.koctopus.repo.util.Connections;
 import org.lisapark.koctopus.repo.util.DaoUtils;
 import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.transport.TransportReference;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  *
@@ -302,7 +302,7 @@ public class DatabaseSink extends AbstractNode implements ExternalSink {
         }
 
         @Override
-        public Object processEvent(StreamingRuntime runtime) {
+        public Object processEvent(Transport runtime) {
             throw new UnsupportedOperationException("Not supported yet.");
             //To change body of generated methods, choose Tools | Templates.
         }

@@ -45,7 +45,7 @@ import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.util.Booleans;
 import org.lisapark.koctopus.core.ProcessingException;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * @author alexmy (alexmy@lisa-park.com)
@@ -320,7 +320,7 @@ public class GdeltZipSource extends AbstractExternalSource {
         }
 
         @Override
-        public Object startProcessingEvents(StreamingRuntime runtime) throws ProcessingException {
+        public Object startProcessingEvents(Transport runtime) throws ProcessingException {
             return null;
         }
     }

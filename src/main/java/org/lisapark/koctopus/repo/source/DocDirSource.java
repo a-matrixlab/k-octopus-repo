@@ -43,7 +43,7 @@ import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * @author dave sinclair(david.sinclair@lisa-park.com)
@@ -171,7 +171,7 @@ public class DocDirSource extends AbstractExternalSource {
         }
 
         @Override
-        public Integer startProcessingEvents(StreamingRuntime runtime) {
+        public Integer startProcessingEvents(Transport runtime) {
 
             runtime.start();
             running = true;
@@ -201,7 +201,7 @@ public class DocDirSource extends AbstractExternalSource {
             return status;
         }
 
-        private void write(List<Attribute> attributes, String fileName, StreamingRuntime runtime) {
+        private void write(List<Attribute> attributes, String fileName, Transport runtime) {
             Event e = createEvent(attributes, fileName);
             runtime.writeEvents(e.getData(), source.getClass().getCanonicalName(), source.getId());
         }

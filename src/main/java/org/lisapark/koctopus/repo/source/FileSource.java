@@ -39,7 +39,7 @@ import org.lisapark.koctopus.repo.graph.GraphUtils;
 import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * @author dave sinclair(david.sinclair@lisa-park.com)
@@ -157,7 +157,7 @@ public class FileSource extends AbstractExternalSource {
         
         @Override
         @SuppressWarnings("SleepWhileInLoop")
-        public Integer startProcessingEvents(StreamingRuntime runtime) {             
+        public Integer startProcessingEvents(Transport runtime) {             
             
             Thread thread = Thread.currentThread();
             runtime.start();

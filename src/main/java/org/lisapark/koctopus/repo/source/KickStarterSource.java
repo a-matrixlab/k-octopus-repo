@@ -41,7 +41,7 @@ import org.lisapark.koctopus.core.parameter.Parameter;
 import org.lisapark.koctopus.core.runtime.ProcessingRuntime;
 import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  *
@@ -213,7 +213,7 @@ public class KickStarterSource extends AbstractExternalSource {
         }
 
         @Override
-        public Object startProcessingEvents(StreamingRuntime runtime) throws ProcessingException {
+        public Object startProcessingEvents(Transport runtime) throws ProcessingException {
             return null;
         }
     }

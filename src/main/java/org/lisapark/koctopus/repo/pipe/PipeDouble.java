@@ -32,7 +32,7 @@ import org.lisapark.koctopus.core.processor.ProcessorInput;
 import org.lisapark.koctopus.core.processor.ProcessorOutput;
 import org.lisapark.koctopus.core.runtime.ProcessorContext;
 import org.lisapark.koctopus.core.transport.TransportReference;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * This {@link AbstractProcessor} is used for transferring Double value from one processor to another.
@@ -176,7 +176,7 @@ public class PipeDouble extends AbstractProcessor<Double> {
         }
 
         @Override
-        public Object processEvent(StreamingRuntime runtime) {
+        public Object processEvent(Transport runtime) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }

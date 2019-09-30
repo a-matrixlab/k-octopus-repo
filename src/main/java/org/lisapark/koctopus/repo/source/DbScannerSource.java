@@ -46,7 +46,7 @@ import static com.google.common.base.Preconditions.checkState;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  *
@@ -300,7 +300,7 @@ public class DbScannerSource  extends AbstractExternalSource {
         }
 
         @Override
-        public Object startProcessingEvents(StreamingRuntime runtime) throws ProcessingException {
+        public Object startProcessingEvents(Transport runtime) throws ProcessingException {
             return null;
         }
     }

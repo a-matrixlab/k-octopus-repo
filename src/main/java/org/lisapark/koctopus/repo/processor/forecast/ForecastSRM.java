@@ -39,7 +39,7 @@ import org.lisapark.koctopus.core.processor.ProcessorInput;
 import org.lisapark.koctopus.core.processor.ProcessorOutput;
 import org.lisapark.koctopus.core.runtime.ProcessorContext;
 import org.lisapark.koctopus.core.transport.TransportReference;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  *
@@ -367,7 +367,7 @@ public class ForecastSRM extends AbstractProcessor<Double> {
         }
 
         @Override
-        public Object processEvent(StreamingRuntime runtime) {
+        public Object processEvent(Transport runtime) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }

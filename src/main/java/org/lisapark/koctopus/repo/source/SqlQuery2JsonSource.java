@@ -49,7 +49,7 @@ import org.lisapark.koctopus.core.source.external.CompiledExternalSource;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import static com.google.common.base.Preconditions.checkState;
 import org.lisapark.koctopus.core.graph.Gnode;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * This class is an {@link AbstractExternalSource} that is used to access relational databases. It can be configured with
@@ -295,7 +295,7 @@ public class SqlQuery2JsonSource extends AbstractExternalSource {
         }
 
         @Override
-        public Object startProcessingEvents(StreamingRuntime runtime) throws ProcessingException {
+        public Object startProcessingEvents(Transport runtime) throws ProcessingException {
             return null;
         }
     }

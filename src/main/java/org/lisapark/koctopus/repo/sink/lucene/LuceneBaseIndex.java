@@ -55,8 +55,8 @@ import org.lisapark.koctopus.core.parameter.Parameter;
 import org.lisapark.koctopus.core.transport.TransportReference;
 import org.lisapark.koctopus.core.sink.external.CompiledExternalSink;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.core.transport.StreamingRuntime;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
+import org.lisapark.koctopus.core.transport.Transport;
 
 /**
  * @author alexmy
@@ -218,7 +218,7 @@ public class LuceneBaseIndex extends AbstractExternalSink {
         }
 
         @Override
-        public synchronized Integer processEvent(StreamingRuntime runtime) {
+        public synchronized Integer processEvent(Transport runtime) {
 
             String attrName = luceneSink.getFileAttributeName();
 
