@@ -16,8 +16,8 @@ Processors are not communicating directly to each other, instead they are using 
 
 There are four K-Octopus projects/modules that are ready for demo so far (the other ones are in progress):
 1. **K-Octopus Core**;
-2. **K-Octopus Compute** - this module responsible for executing processing models;
-3. **K-Octopus Repo** - is placeholder for the Octopus repository. Right now it does almost nothing, just holding list of processor instances to serve K-Octopus Designer Palettes;
+2. **K-Octopus Repo** - is placeholder for the Octopus repository. Right now it does almost nothing, just holding list of processor instances to serve K-Octopus Designer Palettes;
+3. **K-Octopus Compute** - this module responsible for executing processing models;
 4. **K-Octopus Designer** is a graphical, drag-and-drop tool to visually build an Octopus Model Execution Graph.
 
 There are direct inter-dependencies between these project in the order from 1 to 4. So, building of those projects should follow the same order, starting from K-Octopus Core and ending with K-Octopus Designer. 
