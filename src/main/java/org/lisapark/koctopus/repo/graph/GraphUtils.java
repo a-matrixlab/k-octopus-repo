@@ -18,6 +18,7 @@ package org.lisapark.koctopus.repo.graph;
 
 import com.fasterxml.uuid.Generators;
 import java.awt.Point;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,6 @@ import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.Source;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.RedisRepository;
-
 /**
  *
  * @author alexmy
@@ -127,7 +127,7 @@ public class GraphUtils {
             if (_input != null) {
                 try {
                     String sourceClassName = _input.getSourceClassName();
-                    Object source = repo.getObjectByName(sourceClassName); 
+                    Object source = repo.getObjectByName(sourceClassName);
                     if (source instanceof AbstractProcessor) {
                         AbstractProcessor proc = (AbstractProcessor) source;
                         proc.setId(UUID.fromString(_input.getSourceId()));
@@ -137,7 +137,6 @@ public class GraphUtils {
                         exsource.setId(UUID.fromString(_input.getSourceId()));
                         input.connectSource(exsource);
                     }
-
                     TransportReference ref = new TransportReference();
                     ref.setReferenceClass(_input.getSourceClassName());
                     ref.setReferenceId(_input.getSourceId());
@@ -173,11 +172,11 @@ public class GraphUtils {
         List<? extends Input> inputs = processor.getInputs();
         RedisRepository repo = new RedisRepository();
         inputs.forEach((Input input) -> {
-            try {
-                NodeInput _input = (NodeInput) ginputs.getSources().get(input.getName());
-                if (_input != null) {
+            NodeInput _input = (NodeInput) ginputs.getSources().get(input.getName());
+            if (_input != null) {
+                try {
                     String sourceClassName = _input.getSourceClassName();
-                    Object source = repo.getAbstractExternalSourceByName(sourceClassName); 
+                    Object source = repo.getAbstractExternalSourceByName(sourceClassName);
                     if (source instanceof AbstractProcessor) {
                         AbstractProcessor proc = (AbstractProcessor) source;
                         proc.setId(UUID.fromString(_input.getSourceId()));
@@ -192,9 +191,9 @@ public class GraphUtils {
                     ref.setReferenceId(_input.getSourceId());
                     ref.setAttributes(_input.getAttributes());
                     processor.getReferences().put(input.getName(), ref);
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | MalformedURLException ex) {
+                    LOG.log(Level.SEVERE, ex.getMessage());
                 }
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                LOG.log(Level.SEVERE, ex.getMessage());
             }
         });
         final NodeOutput goutput = (NodeOutput) gnode.getOutput();
@@ -532,7 +531,7 @@ public class GraphUtils {
                     default:
                         break;
                 }
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | MalformedURLException ex) {
                 LOG.log(Level.SEVERE, ex.getMessage());
             }
         });

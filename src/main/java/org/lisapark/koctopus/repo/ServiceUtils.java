@@ -1,4 +1,4 @@
-package org.lisapark.koctopus.repo.util;
+package org.lisapark.koctopus.repo;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

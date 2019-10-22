@@ -18,74 +18,77 @@ package org.lisapark.koctopus.repo;
 
 import org.lisapark.koctopus.core.OctopusRepository;
 import com.google.common.collect.Lists;
+import com.google.common.reflect.ClassPath;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lisapark.koctopus.repo.graph.GraphUtils;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
-import org.lisapark.koctopus.repo.processor.crossing.Crossing;
-import org.lisapark.koctopus.repo.processor.forecast.ForecastSRM;
-import org.lisapark.koctopus.repo.processor.regression.LinearRegressionProcessor;
-import org.lisapark.koctopus.repo.processor.correlation.PearsonsCorrelationProcessor;
-import org.lisapark.koctopus.repo.processor.sma.SmaRedis;
-import org.lisapark.koctopus.repo.processor.sma.SmaOld;
-import org.lisapark.koctopus.core.sink.external.ExternalSink;
-import org.lisapark.koctopus.repo.sink.lucene.LuceneBaseIndex;
-import org.lisapark.koctopus.repo.sink.DatabaseSink;
-import org.lisapark.koctopus.repo.sink.ConsoleFromRedis;
-import org.lisapark.koctopus.repo.source.DocDirSource;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
-import org.lisapark.koctopus.repo.source.GdeltZipSource;
-import org.lisapark.koctopus.repo.source.SqlQuerySource;
-import org.lisapark.koctopus.repo.source.TestRandomBinarySource;
-import org.lisapark.koctopus.repo.source.TestSourceRedis;
 
 public abstract class AbstractOctopusRepository implements OctopusRepository {
 
     static final Logger LOG = Logger.getLogger(AbstractOctopusRepository.class.getName());
 
+    private static final String JAR_URL = "file://./my.jar";
+
     @Override
-    public List<ExternalSink> getAllExternalSinkTemplates() {
-        return Lists.newArrayList(new ExternalSink[]{
-            ConsoleFromRedis.newTemplate(),
-            LuceneBaseIndex.newTemplate(), //            DatabaseSink.newTemplate()
+    public List<AbstractExternalSink> getAllExternalSinkTemplates() {
+        return Lists.newArrayList(new AbstractExternalSink[]{ //            ConsoleFromRedis.newTemplate(),
+        //            LuceneBaseIndex.newTemplate()//,             DatabaseSink.newTemplate()
         });
     }
 
     @Override
     public List<AbstractExternalSource> getAllExternalSourceTemplates() {
-        return Lists.newArrayList(new AbstractExternalSource[]{
-            DocDirSource.newTemplate(),
-            //            KickStarterSource.newTemplate(),
-            //            GdeltZipSource.newTemplate(),
-            //            RedisQuittokenSource.newTemplate(),
-            //            RTCSource.newTemplate(),
-            //            SqlQuerySource.newTemplate(),
-            //            TestSource.newTemplate(),
-            TestSourceRedis.newTemplate(), //            TestRandomBinarySource.newTemplate()
+//        ClassPath classpath = ClassPath.from(classloader);
+//        classpath.getTopLevelClasses("com.mycomp.mypackage").forEach((classInfo) -> {
+//            System.out.println(classInfo.getName());
+//        });
+        return Lists.newArrayList(new AbstractExternalSource[]{ 
+        //            DocDirSource.newTemplate(),
+        //            KickStarterSource.newTemplate(),
+        //            GdeltZipSource.newTemplate(),
+        //            RedisQuittokenSource.newTemplate(),
+        //            RTCSource.newTemplate(),
+        //            SqlQuerySource.newTemplate(),
+        //            TestSource.newTemplate(),
+        //            TestSourceRedis.newTemplate(), //            TestRandomBinarySource.newTemplate()
         });
+    }
+    
+    public List<AbstractExternalSource> getAllExternalSourceTemplates(URLClassLoader classloader) throws IOException {
+        List<AbstractExternalSource> list = new ArrayList<>();
+//        ClassPath classpath = ClassPath.from(classloader);
+//        classpath.getTopLevelClasses("com.mycomp.mypackage").forEach((classInfo) -> {
+//            list.add(classInfo.getName());
+//        });
+        
+        return list;
     }
 
     @Override
     public List<AbstractProcessor> getAllProcessorTemplates() {
-        return Lists.newArrayList(new AbstractProcessor[]{
-            //            Crossing.newTemplate(),
-            //            ForecastSRM.newTemplate(),
-            //            LinearRegressionProcessor.newTemplate(),
-            //            PearsonsCorrelationProcessor.newTemplate(),
-            //            PipeDouble.newTemplate(),
-            //            PipeString.newTemplate(),
-            //            PipeStringDouble.newTemplate(),
-            //            RTCcontroller.newTemplate(),
-            //            SmaOld.newTemplate(),
-            SmaRedis.newTemplate()
+        return Lists.newArrayList(new AbstractProcessor[]{ //            Crossing.newTemplate(),
+        //            ForecastSRM.newTemplate(),
+        //            LinearRegressionProcessor.newTemplate(),
+        //            PearsonsCorrelationProcessor.newTemplate(),
+        //            PipeDouble.newTemplate(),
+        //            PipeString.newTemplate(),
+        //            PipeStringDouble.newTemplate(),
+        //            RTCcontroller.newTemplate(),
+        //            SmaOld.newTemplate(),
+        //            SmaRedis.newTemplate()
         });
     }
 
     @Override
     public AbstractExternalSource getAbstractExternalSourceByName(String type)
-            throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, MalformedURLException {
+        
         return (AbstractExternalSource) Class.forName(type).newInstance();
     }
 

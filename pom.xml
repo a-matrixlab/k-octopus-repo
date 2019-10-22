@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>k-octopus</groupId>
     <artifactId>k-octopus-repo</artifactId>
-    <version>0.7.2</version>
+    <version>0.7.3</version>
     <packaging>jar</packaging>    
     <build>
         <plugins>
@@ -29,6 +29,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>k-octopus-core</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lisapark</groupId>
+            <artifactId>k-octopus-processors</artifactId>
+            <version>0.7.3</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>
