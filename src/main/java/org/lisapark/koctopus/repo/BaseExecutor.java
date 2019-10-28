@@ -52,9 +52,9 @@ public class BaseExecutor {
         }
     }
     
-    private final KosCache koCache;
+    private final RepoCache koCache;
     
-    public BaseExecutor(KosCache koCache){
+    public BaseExecutor(RepoCache koCache){
         this.koCache = koCache;
     }
 

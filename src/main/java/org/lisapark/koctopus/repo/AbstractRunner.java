@@ -36,8 +36,7 @@ import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
  * @author alexmylnikov
  * @param <V>
  */
-public abstract class AbstractRunner<V> {
-    
+public abstract class AbstractRunner<V> {   
     
     /**
      * @return the standardOut
@@ -91,7 +90,7 @@ public abstract class AbstractRunner<V> {
 
     private Graph graph;
     
-    private KosCache koCache;
+    private RepoCache koCache;
 
 
     /**
@@ -383,7 +382,7 @@ public abstract class AbstractRunner<V> {
     /**
      * @return the koCache
      */
-    public KosCache getKoCache() {
+    public RepoCache getKoCache() {
         if(koCache == null){
             throw new NullPointerException("KosCache instance cannot be null.");
         }
@@ -393,7 +392,7 @@ public abstract class AbstractRunner<V> {
     /**
      * @param koCache the koCache to set
      */
-    public void setKoCache(KosCache koCache) {
+    public void setKoCache(RepoCache koCache) {
         this.koCache = koCache;
     }
 

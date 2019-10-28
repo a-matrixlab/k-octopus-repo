@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lisapark.koctopus.repo.graph;
+package org.lisapark.koctopus.repo.utils;
 
 import com.fasterxml.uuid.Generators;
 import java.awt.Point;
@@ -57,6 +57,7 @@ import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.Source;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.RedisRepository;
+
 /**
  *
  * @author alexmy
@@ -127,7 +128,7 @@ public class GraphUtils {
             if (_input != null) {
                 try {
                     String sourceClassName = _input.getSourceClassName();
-                    Object source = repo.getObjectByName(sourceClassName);
+                    Object source = repo.getObjectByName(RepoUtils.getPair(sourceClassName));
                     if (source instanceof AbstractProcessor) {
                         AbstractProcessor proc = (AbstractProcessor) source;
                         proc.setId(UUID.fromString(_input.getSourceId()));
@@ -142,7 +143,7 @@ public class GraphUtils {
                     ref.setReferenceId(_input.getSourceId());
                     ref.setAttributes(_input.getAttributes());
                     sink.getReferences().put(input.getName(), ref);
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                } catch (InstantiationException | IllegalAccessException | MalformedURLException ex) {
                     LOG.log(Level.SEVERE, ex.getMessage());
                 }
             }
@@ -176,7 +177,7 @@ public class GraphUtils {
             if (_input != null) {
                 try {
                     String sourceClassName = _input.getSourceClassName();
-                    Object source = repo.getAbstractExternalSourceByName(sourceClassName);
+                    Object source = repo.getAbstractExternalSourceByName(RepoUtils.getPair(sourceClassName));
                     if (source instanceof AbstractProcessor) {
                         AbstractProcessor proc = (AbstractProcessor) source;
                         proc.setId(UUID.fromString(_input.getSourceId()));
@@ -191,7 +192,7 @@ public class GraphUtils {
                     ref.setReferenceId(_input.getSourceId());
                     ref.setAttributes(_input.getAttributes());
                     processor.getReferences().put(input.getName(), ref);
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | MalformedURLException ex) {
+                } catch (InstantiationException | IllegalAccessException | MalformedURLException ex) {
                     LOG.log(Level.SEVERE, ex.getMessage());
                 }
             }
@@ -506,7 +507,7 @@ public class GraphUtils {
                 switch (gnode.getLabel()) {
                     case Vocabulary.SOURCE:
                         type = gnode.getType();
-                        AbstractExternalSource sourceIns = (AbstractExternalSource) repo.getAbstractExternalSourceByName(type); 
+                        AbstractExternalSource sourceIns = (AbstractExternalSource) repo.getAbstractExternalSourceByName(RepoUtils.getPair(type)); 
                         AbstractExternalSource source = (AbstractExternalSource) sourceIns.newInstance(gnode);
                         source.setLocation(new Point(gnode.getX(), gnode.getY()));
                         model.addExternalEventSource(source);
@@ -514,7 +515,7 @@ public class GraphUtils {
                         break;
                     case Vocabulary.PROCESSOR:
                         type = gnode.getType();
-                        AbstractProcessor processorIns = (AbstractProcessor) repo.getAbstractProcessorByName(type);
+                        AbstractProcessor processorIns = (AbstractProcessor) repo.getAbstractProcessorByName(RepoUtils.getPair(type));
                         AbstractProcessor processor = (AbstractProcessor) processorIns.newInstance(gnode);
                         processor.setLocation(new Point(gnode.getX(), gnode.getY()));
                         lookupModel.put(processor.getId().toString(), processor);
@@ -522,7 +523,7 @@ public class GraphUtils {
                         break;
                     case Vocabulary.SINK:
                         type = gnode.getType();
-                        ExternalSink sinkIns = (ExternalSink) repo.getAbstractExternalSinkByName(type); 
+                        ExternalSink sinkIns = (ExternalSink) repo.getAbstractExternalSinkByName(RepoUtils.getPair(type)); 
                         ExternalSink sink = (ExternalSink) sinkIns.newInstance(gnode);
                         sink.setLocation(new Point(gnode.getX(), gnode.getY()));
                         lookupModel.put(sink.getId().toString(), sink);
@@ -531,7 +532,7 @@ public class GraphUtils {
                     default:
                         break;
                 }
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | MalformedURLException ex) {
+            } catch (InstantiationException | IllegalAccessException | MalformedURLException ex) {
                 LOG.log(Level.SEVERE, ex.getMessage());
             }
         });
