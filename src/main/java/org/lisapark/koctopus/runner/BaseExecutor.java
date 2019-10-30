@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lisapark.koctopus.repo;
+package org.lisapark.koctopus.runner;
 
 import com.google.gson.Gson;
 import java.util.concurrent.ExecutionException;
@@ -29,6 +29,7 @@ import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.transport.redis.RedisTransport;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
+import org.lisapark.koctopus.repo.RepoCache;
 
 /**
  *
@@ -41,6 +42,7 @@ public class BaseExecutor {
     enum Status {
         SUCCESS(200),
         ERROR(400);
+        
         private final int statusCode;
 
         Status(int statusCode) {
@@ -52,10 +54,10 @@ public class BaseExecutor {
         }
     }
     
-    private final RepoCache koCache;
+    private final RepoCache repoCache;
     
-    public BaseExecutor(RepoCache koCache){
-        this.koCache = koCache;
+    public BaseExecutor(RepoCache repoCache){
+        this.repoCache = repoCache;
     }
 
     /**
@@ -77,7 +79,7 @@ public class BaseExecutor {
             switch (gnode.getLabel()) {
                 case Vocabulary.SOURCE:
                     type = gnode.getType();
-                    AbstractExternalSource sourceIns = koCache.getSourceCache().get(type);
+                    AbstractExternalSource sourceIns = repoCache.getSourceCache().get(type);
                     AbstractExternalSource source = (AbstractExternalSource) sourceIns.newInstance(gnode);
                     result = new Gson().toJson(gnode);
                     source.compile(source).startProcessingEvents(runtime);
@@ -85,7 +87,7 @@ public class BaseExecutor {
                     break;
                 case Vocabulary.PROCESSOR:
                     type = gnode.getType();
-                    AbstractProcessor processorIns = koCache.getProcessorCache().get(type);
+                    AbstractProcessor processorIns = repoCache.getProcessorCache().get(type);
                     AbstractProcessor processor = (AbstractProcessor) processorIns.newInstance(gnode);
                     result = new Gson().toJson(gnode);
                     processor.compile(processor).processEvent(runtime);
@@ -93,7 +95,7 @@ public class BaseExecutor {
                     break;
                 case Vocabulary.SINK:
                     type = gnode.getType();
-                    ExternalSink sinkIns = koCache.getSinkCache().get(type);
+                    ExternalSink sinkIns = repoCache.getSinkCache().get(type);
                     ExternalSink sink = (ExternalSink) sinkIns.newInstance(gnode);
                     result = new Gson().toJson(gnode);
                     sink.compile(sink).processEvent(runtime);
@@ -104,7 +106,7 @@ public class BaseExecutor {
                     type = graph.getType();
                     AbstractRunner runner = (AbstractRunner) Class.forName(type).newInstance();
                     runner.setGraph(graph);
-                    runner.setKoCache(koCache);
+                    runner.setKoCache(repoCache);
                     runner.init();
                     result = new Gson().toJson((Gnode)graph, Gnode.class);
                     runner.execute();

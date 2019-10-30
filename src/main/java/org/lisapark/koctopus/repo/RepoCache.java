@@ -20,6 +20,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import java.net.URLClassLoader;
+import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
@@ -27,9 +28,9 @@ import org.lisapark.koctopus.repo.utils.RepoUtils;
 
 /**
  * There are three types of processors, so we need 3 caches for them. Plus we
- * need to keep references to all JARs loaded to the system. Each jar will be identified with
- * URL string of this jar. JAR's URLs are part of configuration. On K8s they
- * should be managed with ConfigMap kube-api.
+ * need to keep references to all JARs loaded to the system. Each jar will be
+ * identified with URL string of this jar. JAR's URLs are part of configuration.
+ * On K8s they should be managed with ConfigMap kube-api.
  *
  * @author alexmy
  */
@@ -39,15 +40,17 @@ public class RepoCache {
     private LoadingCache<String, AbstractExternalSource> sourceCache;
     private LoadingCache<String, AbstractExternalSink> sinkCache;
 
-    private LoadingCache<String, URLClassLoader> jarCache;
+    private final RedisRepository repo = new RedisRepository();
 
-    private final RedisRepository repo;
+    ;
 
     public RepoCache() {
-        this.repo = new RedisRepository();
         initCache();
     }
 
+    /**
+     *
+     */
     private void initCache() {
         processorCache = CacheBuilder.newBuilder()
                 //                .maximumSize(100) // maximum 100 records can be cached
@@ -87,7 +90,17 @@ public class RepoCache {
                 });
     }
 
-    
+    /**
+     * Pre-populates Cache with all processors from gnode that are not loaded
+     * yet.
+     *
+     * @param gnode
+     */
+    public void loadModelProcessors(Gnode gnode) {
+        // Load all processors from the gnode
+
+    }
+
     /**
      * @return the processorCache
      */

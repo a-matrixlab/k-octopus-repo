@@ -65,6 +65,8 @@ import org.lisapark.koctopus.repo.RedisRepository;
 public class GraphUtils {
 
     static final Logger LOG = Logger.getLogger(GraphUtils.class.getName());
+        
+    public static final String OCTOPUS_RUNNER = "org.lisapark.koctopus.runner.OctopusRunner";
 
     /**
      *
@@ -238,7 +240,7 @@ public class GraphUtils {
         UUID uuid = _resetUuid ? Generators.timeBasedGenerator().generate() : model.getId();
         graph.setId(uuid.toString());
         graph.setLabel(Vocabulary.MODEL);
-        graph.setType(Vocabulary.OCTOPUS_RUNNER);
+        graph.setType(OCTOPUS_RUNNER);
         String _transportUrl;
         if (transportUrl == null) {
             if (model.getTransportUrl() == null) {

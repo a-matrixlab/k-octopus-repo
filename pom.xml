@@ -25,34 +25,12 @@
     </properties>
     <name>k-octopus-repo</name>
     <dependencies>
-        <!--dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-aether</artifactId>
-            <version>0.10.1</version>
-            <type>jar</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.aether</groupId>
-                    <artifactId>aether-util</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.sonatype.aether</groupId>
-            <artifactId>aether-api</artifactId>
-            <version>1.13.1</version>
-        </dependency-->
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>k-octopus-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>3.5.3</version>
-            <type>jar</type>
-        </dependency-->
         
     </dependencies>
 </project>

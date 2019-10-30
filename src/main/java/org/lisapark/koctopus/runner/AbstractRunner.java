@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lisapark.koctopus.repo;
+package org.lisapark.koctopus.runner;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import org.lisapark.koctopus.core.graph.Edge;
 import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.graph.Graph;
 import org.lisapark.koctopus.core.graph.api.GraphVocabulary;
+import org.lisapark.koctopus.repo.RepoCache;
 
 /**
  *
@@ -90,7 +91,7 @@ public abstract class AbstractRunner<V> {
 
     private Graph graph;
     
-    private RepoCache koCache;
+    private RepoCache repoCache;
 
 
     /**
@@ -383,17 +384,17 @@ public abstract class AbstractRunner<V> {
      * @return the koCache
      */
     public RepoCache getKoCache() {
-        if(koCache == null){
+        if(repoCache == null){
             throw new NullPointerException("KosCache instance cannot be null.");
         }
-        return koCache;
+        return repoCache;
     }
 
     /**
      * @param koCache the koCache to set
      */
     public void setKoCache(RepoCache koCache) {
-        this.koCache = koCache;
+        this.repoCache = koCache;
     }
 
     public Map<String, Set<Edge>> getForwardRel() {

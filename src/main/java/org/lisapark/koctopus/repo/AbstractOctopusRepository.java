@@ -16,13 +16,13 @@
  */
 package org.lisapark.koctopus.repo;
 
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
 import org.lisapark.koctopus.core.OctopusRepository;
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
@@ -32,61 +32,51 @@ import org.lisapark.koctopus.util.Pair;
 
 public abstract class AbstractOctopusRepository implements OctopusRepository {
 
+    static final String DEFAULT_REPO_PATH = "file:///home/alexmy/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar";
+
     private static final Logger LOG = Logger.getLogger(AbstractOctopusRepository.class.getName());
-    
+
+    /**
+     *
+     * @param jar_type
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws MalformedURLException
+     */
     @Override
-    public List<AbstractExternalSink> getAllExternalSinkTemplates(List<String> sink_jars) {
+    public synchronized AbstractExternalSource getAbstractExternalSourceByName(Pair<String, String> jar_type)
+            throws InstantiationException, IllegalAccessException, MalformedURLException {
 
-        return Lists.newArrayList(new AbstractExternalSink[]{ //            ConsoleFromRedis.newTemplate(),
-        //            LuceneBaseIndex.newTemplate()//,             DatabaseSink.newTemplate()
-        });
-    }
+        AbstractExternalSource _source = null;
+        try {
+            _source = (AbstractExternalSource) Class.forName(jar_type.getSecond()).newInstance();
+        } catch (ClassNotFoundException ex2) {
+            String repoPath = getRepoPath(jar_type);
+            URL url = new URL(repoPath);
+            try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
+                ClassPath classpath = ClassPath.from(loader);
+                for (ClassInfo classInfo : classpath.getAllClasses()) {
+                    if (classInfo.getName().contains(jar_type.getSecond())) {
+                        try {
+                            Class<?> clazz = classInfo.load();
+                            if (classInfo.toString().indexOf("$") <= 0) {
+                                _source = (AbstractExternalSource) clazz.newInstance();
+                            }
+                        } catch (InstantiationException | IllegalAccessException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            } catch (IOException ex1) {
+                LOG.log(Level.SEVERE, ex1.getMessage());
+            }
+        }
 
-    @Override
-    public List<AbstractExternalSource> getAllExternalSourceTemplates(List<String> source_jars) {
-
-//        source_jars.forEach((String source) -> {
-//            try {
-//                URLClassLoader child = new URLClassLoader(new URL[]{new URL(source)}, this.getClass().getClassLoader());
-//                ClassPath classpath = ClassPath.from(child);
-//                classpath.getTopLevelClasses(SOURCE_TOP_PACKAGE).forEach((classInfo) -> {
-//                    
-//                });
-//            } catch (MalformedURLException ex) {
-//                LOG.log(Level.SEVERE, ex.getMessage());
-//            } catch (IOException ex) {
-//                LOG.log(Level.SEVERE, ex.getMessage());
-//            }
-//        });
-//        ClassPath classpath = ClassPath.from(classloader);
-//        classpath.getTopLevelClasses("com.mycomp.mypackage").forEach((classInfo) -> {
-//            System.out.println(classInfo.getName());
-//        });
-        return Lists.newArrayList(new AbstractExternalSource[]{ //            DocDirSource.newTemplate(),
-        //            KickStarterSource.newTemplate(),
-        //            GdeltZipSource.newTemplate(),
-        //            RedisQuittokenSource.newTemplate(),
-        //            RTCSource.newTemplate(),
-        //            SqlQuerySource.newTemplate(),
-        //            TestSource.newTemplate(),
-        //            TestSourceRedis.newTemplate(), //            TestRandomBinarySource.newTemplate()
-        });
-    }
-
-    @Override
-    public List<AbstractProcessor> getAllProcessorTemplates(List<String> processors_jars) {
-
-        return Lists.newArrayList(new AbstractProcessor[]{ //            Crossing.newTemplate(),
-        //            ForecastSRM.newTemplate(),
-        //            LinearRegressionProcessor.newTemplate(),
-        //            PearsonsCorrelationProcessor.newTemplate(),
-        //            PipeDouble.newTemplate(),
-        //            PipeString.newTemplate(),
-        //            PipeStringDouble.newTemplate(),
-        //            RTCcontroller.newTemplate(),
-        //            SmaOld.newTemplate(),
-        //                    SmaRedis.newTemplate()
-        });
+        if (_source != null) {
+            return _source.newTemplate();
+        }
+        return _source;
     }
 
     /**
@@ -98,80 +88,128 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
      * @throws MalformedURLException
      */
     @Override
-    public AbstractExternalSource getAbstractExternalSourceByName(Pair<String, String> jar_type)
-            throws InstantiationException, IllegalAccessException, MalformedURLException {
-
-        AbstractExternalSource source = null;
-        try {
-            source = (AbstractExternalSource) Class.forName(jar_type.getSecond()).newInstance();
-        } catch (ClassNotFoundException ex) {
-            URL url = new URL(jar_type.getFirst());
-            try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
-                Class cl = Class.forName(jar_type.getSecond(), true, loader);
-                source = (AbstractExternalSource) cl.newInstance();
-            } catch (IOException | ClassNotFoundException ex1) {
-                LOG.log(Level.SEVERE, ex1.getMessage());
-            }
-            LOG.log(Level.SEVERE, ex.getMessage());
-        }
-
-        return source;
-    }
-
-    @Override
-    public AbstractExternalSink getAbstractExternalSinkByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
+    public synchronized AbstractExternalSink getAbstractExternalSinkByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
         AbstractExternalSink sink = null;
         try {
             sink = (AbstractExternalSink) Class.forName(jar_type.getSecond()).newInstance();
         } catch (ClassNotFoundException ex) {
-            URL url = new URL(jar_type.getFirst());
+            String repoPath = getRepoPath(jar_type);
+            URL url = new URL(repoPath);
             try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
-                Class cl = Class.forName(jar_type.getSecond(), true, loader);
-                sink = (AbstractExternalSink) cl.newInstance();
-            } catch (IOException | ClassNotFoundException ex1) {
+                ClassPath classpath = ClassPath.from(loader);
+                for (ClassInfo classInfo : classpath.getAllClasses()) {
+                    if (classInfo.getName().contains(jar_type.getSecond())) {
+                        try {
+                            Class<?> clazz = classInfo.load();
+                            if (classInfo.toString().indexOf("$") <= 0) {
+                                sink = (AbstractExternalSink) clazz.newInstance();
+                            }
+                        } catch (InstantiationException | IllegalAccessException ex2) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex2);
+                        }
+                    }
+                }
+            } catch (IOException ex1) {
                 LOG.log(Level.SEVERE, ex1.getMessage());
             }
-            LOG.log(Level.SEVERE, ex.getMessage());
         }
-
+        if (sink != null) {
+            return sink.newTemplate();
+        }
         return sink;
     }
 
+    /**
+     *
+     * @param jar_type
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws MalformedURLException
+     */
     @Override
-    public AbstractProcessor getAbstractProcessorByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
+    public synchronized AbstractProcessor getAbstractProcessorByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
         AbstractProcessor processor = null;
         try {
             processor = (AbstractProcessor) Class.forName(jar_type.getSecond()).newInstance();
         } catch (ClassNotFoundException ex) {
-            URL url = new URL(jar_type.getFirst());
+            String repoPath = getRepoPath(jar_type);
+            URL url = new URL(repoPath);
             try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
-                Class cl = Class.forName(jar_type.getSecond(), true, loader);
-                processor = (AbstractProcessor) cl.newInstance();
-            } catch (IOException | ClassNotFoundException ex1) {
+                ClassPath classpath = ClassPath.from(loader);
+                for (ClassInfo classInfo : classpath.getAllClasses()) {
+                    if (classInfo.getName().contains(jar_type.getSecond())) {
+                        try {
+                            Class<?> clazz = classInfo.load();
+                            if (classInfo.toString().indexOf("$") <= 0) {
+                                processor = (AbstractProcessor) clazz.newInstance();
+                            }
+                        } catch (InstantiationException | IllegalAccessException ex2) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex2);
+                        }
+                    }
+                }
+            } catch (IOException ex1) {
                 LOG.log(Level.SEVERE, ex1.getMessage());
             }
-            LOG.log(Level.SEVERE, ex.getMessage());
         }
 
+        if (processor != null) {
+            return processor.newTemplate();
+        }
         return processor;
     }
 
+    /**
+     *
+     * @param jar_type
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws MalformedURLException
+     */
     @Override
-    public Object getObjectByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
+    public synchronized Object getObjectByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
         Object object = null;
         try {
             object = Class.forName(jar_type.getSecond()).newInstance();
         } catch (ClassNotFoundException ex) {
-            URL url = new URL(jar_type.getFirst());
+            String repoPath = getRepoPath(jar_type);
+            URL url = new URL(repoPath);
             try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
-                Class cl = Class.forName(jar_type.getSecond(), true, loader);
-                object = cl.newInstance();
-            } catch (IOException | ClassNotFoundException ex1) {
+                ClassPath classpath = ClassPath.from(loader);
+                for (ClassInfo classInfo : classpath.getAllClasses()) {
+                    if (classInfo.getName().contains(jar_type.getSecond())) {
+                        try {
+                            Class<?> clazz = classInfo.load();
+                            if (classInfo.toString().indexOf("$") <= 0) {
+                                object = clazz.newInstance();
+                            }
+                        } catch (InstantiationException | IllegalAccessException ex2) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex2);
+                        }
+                    }
+                }
+            } catch (IOException ex1) {
                 LOG.log(Level.SEVERE, ex1.getMessage());
             }
-            LOG.log(Level.SEVERE, ex.getMessage());
         }
 
         return object;
+    }
+
+    /**
+     *
+     * @param jar_type
+     * @return
+     */
+    private String getRepoPath(Pair<String, String> jar_type) {
+        String repoPath;
+        if (jar_type.getFirst() == null) {
+            repoPath = DEFAULT_REPO_PATH;
+        } else {
+            repoPath = jar_type.getFirst();
+        }
+        return repoPath;
     }
 }

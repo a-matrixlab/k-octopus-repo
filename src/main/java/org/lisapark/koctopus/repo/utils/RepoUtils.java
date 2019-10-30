@@ -25,10 +25,10 @@ public class RepoUtils {
                 pair = new Pair<>(_pair[0], _pair[1]);
                 break;
             case 1:
-                pair = new Pair<>(null, _pair[1]);
+                pair = new Pair<>(null, _pair[0]);
                 break;
             default:
-                pair = new Pair<>(null, null);
+                pair = new Pair<>(null, splitString);
                 break;
         }
         return pair;
