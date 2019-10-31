@@ -25,6 +25,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lisapark.koctopus.core.AbstractNode;
+import org.lisapark.koctopus.core.Reproducible;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
@@ -32,7 +34,7 @@ import org.lisapark.koctopus.util.Pair;
 
 public abstract class AbstractOctopusRepository implements OctopusRepository {
 
-    static final String DEFAULT_REPO_PATH = "file:///home/alexmy/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar";
+    static final String DEFAULT_REPO_PATH = "file:///Users/alexmylnikov1/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar";
 
     private static final Logger LOG = Logger.getLogger(AbstractOctopusRepository.class.getName());
 
@@ -170,9 +172,9 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
      */
     @Override
     public synchronized Object getObjectByName(Pair<String, String> jar_type) throws InstantiationException, IllegalAccessException, MalformedURLException {
-        Object object = null;
+        Reproducible object = null;
         try {
-            object = Class.forName(jar_type.getSecond()).newInstance();
+            object = (Reproducible) Class.forName(jar_type.getSecond()).newInstance();
         } catch (ClassNotFoundException ex) {
             String repoPath = getRepoPath(jar_type);
             URL url = new URL(repoPath);
@@ -183,7 +185,7 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
                         try {
                             Class<?> clazz = classInfo.load();
                             if (classInfo.toString().indexOf("$") <= 0) {
-                                object = clazz.newInstance();
+                                object = (Reproducible)clazz.newInstance();
                             }
                         } catch (InstantiationException | IllegalAccessException ex2) {
                             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex2);
@@ -194,7 +196,10 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
                 LOG.log(Level.SEVERE, ex1.getMessage());
             }
         }
-
+        
+        if (object != null) {
+            return object.newTemplate();
+        }
         return object;
     }
 

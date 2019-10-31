@@ -21,6 +21,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import java.net.URLClassLoader;
 import org.lisapark.koctopus.core.graph.Gnode;
+import org.lisapark.koctopus.core.graph.Graph;
+import org.lisapark.koctopus.core.graph.api.Vocabulary;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
@@ -98,6 +100,19 @@ public class RepoCache {
      */
     public void loadModelProcessors(Gnode gnode) {
         // Load all processors from the gnode
+        if (gnode.getLabel().equalsIgnoreCase(Vocabulary.MODEL)) {
+            String graphJson = gnode.toJson().toString();
+            Graph graph = new Graph().fromJson(graphJson);
+
+            graph.getNodes().stream().forEachOrdered((Gnode _gnode) -> {
+                loadProcessor(_gnode);
+            });
+        } else {
+            loadProcessor(gnode);
+        }
+    }
+
+    public void loadProcessor(Gnode gnode) {
 
     }
 

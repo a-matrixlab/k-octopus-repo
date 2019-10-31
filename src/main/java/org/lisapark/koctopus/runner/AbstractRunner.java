@@ -119,18 +119,6 @@ public abstract class AbstractRunner<V> {
         init();
     }
 
-    public AbstractRunner(Graph graph, Map<String, Object> env) {
-//        this.env = new HashMap<>(env);
-        this.graph = graph;
-        init();
-    }
-
-    public AbstractRunner(String json, Map<String, Object> env) {
-//        this.env = new HashMap<>(env);
-        this.graph = new Graph().fromJson(json);
-        init();
-    }
-
     /**
      * Provides initialization of a new and restoration of the interrupted
      * processing
