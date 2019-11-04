@@ -56,7 +56,7 @@ import org.lisapark.koctopus.core.transport.TransportReference;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.Source;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
-import org.lisapark.koctopus.repo.RedisRepository;
+import org.lisapark.koctopus.repo.OctopusRepository;
 
 /**
  *
@@ -124,7 +124,7 @@ public class GraphUtils {
         });
         final NodeInputs ginputs = (NodeInputs) gnode.getInput();
         List<? extends Input> inputs = sink.getInputs();
-        RedisRepository repo = new RedisRepository();
+        OctopusRepository repo = new OctopusRepository();
         inputs.forEach((Input input) -> {
             NodeInput _input = (NodeInput) ginputs.getSources().get(input.getName());
             if (_input != null) {
@@ -173,13 +173,13 @@ public class GraphUtils {
         });
         final NodeInputs ginputs = (NodeInputs) gnode.getInput();
         List<? extends Input> inputs = processor.getInputs();
-        RedisRepository repo = new RedisRepository();
+        OctopusRepository repo = new OctopusRepository();
         inputs.forEach((Input input) -> {
             NodeInput _input = (NodeInput) ginputs.getSources().get(input.getName());
             if (_input != null) {
                 try {
                     String sourceClassName = _input.getSourceClassName();
-                    Object source = repo.getAbstractExternalSourceByName(RepoUtils.getPair(sourceClassName));
+                    Object source = repo.getObjectByName(RepoUtils.getPair(sourceClassName));
                     if (source instanceof AbstractProcessor) {
                         AbstractProcessor proc = (AbstractProcessor) source;
                         proc.setId(UUID.fromString(_input.getSourceId()));
@@ -502,7 +502,7 @@ public class GraphUtils {
         });
         // Node's lookup map
         Map<String, Object> lookupModel = new HashMap<>();
-        RedisRepository repo = new RedisRepository();
+        OctopusRepository repo = new OctopusRepository();
         graph.getNodes().forEach((gnode) -> {
             try {
                 String type;

@@ -23,7 +23,7 @@ import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
  */
 public class Main {
 
-    static final Logger LOG = Logger.getLogger(AbstractOctopusRepository.class.getName());
+    static final Logger LOG = Logger.getLogger(AbstractRepository.class.getName());
     static final String TOP_PACKAGE = "org.lisapark.koctopus.processors";
     private static final String[] REPO_PATH = {"file:///Users/alexmylnikov1/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar"};
 

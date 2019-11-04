@@ -42,7 +42,7 @@ public class RepoCache {
     private LoadingCache<String, AbstractExternalSource> sourceCache;
     private LoadingCache<String, AbstractExternalSink> sinkCache;
 
-    private final RedisRepository repo = new RedisRepository();
+    private final OctopusRepository repo = new OctopusRepository();
 
     ;
 
@@ -62,7 +62,8 @@ public class RepoCache {
                     @Override
                     public AbstractProcessor load(String className) throws Exception {
                         //make the expensive call
-                        return repo.getAbstractProcessorByName(RepoUtils.getPair(className));
+                        AbstractProcessor processor = repo.getAbstractProcessorByName(RepoUtils.getPair(className));
+                        return processor;
                     }
 
                 });
@@ -75,7 +76,8 @@ public class RepoCache {
                     @Override
                     public AbstractExternalSource load(String className) throws Exception {
                         //make the expensive call
-                        return repo.getAbstractExternalSourceByName(RepoUtils.getPair(className));
+                        AbstractExternalSource source = repo.getAbstractExternalSourceByName(RepoUtils.getPair(className));
+                        return source;
                     }
                 });
 
@@ -87,7 +89,8 @@ public class RepoCache {
                     @Override
                     public AbstractExternalSink load(String className) throws Exception {
                         //make the expensive call
-                        return repo.getAbstractExternalSinkByName(RepoUtils.getPair(className));
+                        AbstractExternalSink sink = repo.getAbstractExternalSinkByName(RepoUtils.getPair(className));
+                        return sink;
                     }
                 });
     }

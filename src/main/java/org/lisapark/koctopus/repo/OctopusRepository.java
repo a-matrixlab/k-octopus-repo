@@ -20,9 +20,9 @@ package org.lisapark.koctopus.repo;
  *
  * @author alexmy
  */
-public class RedisRepository extends AbstractOctopusRepository {
+public class OctopusRepository extends AbstractRepository {
 
-    public RedisRepository() {
+    public OctopusRepository() {
         super();
     }
 }

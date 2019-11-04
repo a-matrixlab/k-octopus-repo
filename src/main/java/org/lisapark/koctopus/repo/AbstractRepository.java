@@ -18,25 +18,24 @@ package org.lisapark.koctopus.repo;
 
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
-import org.lisapark.koctopus.core.OctopusRepository;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lisapark.koctopus.core.AbstractNode;
 import org.lisapark.koctopus.core.Reproducible;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.util.Pair;
+import org.lisapark.koctopus.core.Repository;
 
-public abstract class AbstractOctopusRepository implements OctopusRepository {
+public abstract class AbstractRepository implements Repository {
 
-    static final String DEFAULT_REPO_PATH = "file:///Users/alexmylnikov1/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar";
+    static final String DEFAULT_REPO_PATH = "file:///home/alexmy/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar";
 
-    private static final Logger LOG = Logger.getLogger(AbstractOctopusRepository.class.getName());
+    private static final Logger LOG = Logger.getLogger(AbstractRepository.class.getName());
 
     /**
      *
@@ -56,7 +55,7 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
         } catch (ClassNotFoundException ex2) {
             String repoPath = getRepoPath(jar_type);
             URL url = new URL(repoPath);
-            try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
+            try (URLClassLoader loader = new URLClassLoader(new URL[]{url}, this.getClass().getClassLoader())) {
                 ClassPath classpath = ClassPath.from(loader);
                 for (ClassInfo classInfo : classpath.getAllClasses()) {
                     if (classInfo.getName().contains(jar_type.getSecond())) {
@@ -97,13 +96,13 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
         } catch (ClassNotFoundException ex) {
             String repoPath = getRepoPath(jar_type);
             URL url = new URL(repoPath);
-            try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
+            try (URLClassLoader loader = new URLClassLoader(new URL[]{url}, this.getClass().getClassLoader())) {
                 ClassPath classpath = ClassPath.from(loader);
                 for (ClassInfo classInfo : classpath.getAllClasses()) {
                     if (classInfo.getName().contains(jar_type.getSecond())) {
                         try {
                             Class<?> clazz = classInfo.load();
-                            if (classInfo.toString().indexOf("$") <= 0) {
+                            if (classInfo.toString().indexOf("$") == -1) {
                                 sink = (AbstractExternalSink) clazz.newInstance();
                             }
                         } catch (InstantiationException | IllegalAccessException ex2) {
@@ -137,13 +136,13 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
         } catch (ClassNotFoundException ex) {
             String repoPath = getRepoPath(jar_type);
             URL url = new URL(repoPath);
-            try (URLClassLoader loader = new URLClassLoader(new URL[]{url})) {
+            try (URLClassLoader loader = new URLClassLoader(new URL[]{url}, this.getClass().getClassLoader())) {
                 ClassPath classpath = ClassPath.from(loader);
                 for (ClassInfo classInfo : classpath.getAllClasses()) {
                     if (classInfo.getName().contains(jar_type.getSecond())) {
                         try {
                             Class<?> clazz = classInfo.load();
-                            if (classInfo.toString().indexOf("$") <= 0) {
+                            if (classInfo.toString().indexOf("$") == -1) {
                                 processor = (AbstractProcessor) clazz.newInstance();
                             }
                         } catch (InstantiationException | IllegalAccessException ex2) {
@@ -184,7 +183,7 @@ public abstract class AbstractOctopusRepository implements OctopusRepository {
                     if (classInfo.getName().contains(jar_type.getSecond())) {
                         try {
                             Class<?> clazz = classInfo.load();
-                            if (classInfo.toString().indexOf("$") <= 0) {
+                            if (classInfo.toString().indexOf("$") == -1) {
                                 object = (Reproducible)clazz.newInstance();
                             }
                         } catch (InstantiationException | IllegalAccessException ex2) {
