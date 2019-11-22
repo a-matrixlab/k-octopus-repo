@@ -371,18 +371,18 @@ public abstract class AbstractRunner<V> {
     /**
      * @return the koCache
      */
-    public RepoCache getKoCache() {
+    public RepoCache getRepoCache() {
         if(repoCache == null){
-            throw new NullPointerException("KosCache instance cannot be null.");
+            throw new NullPointerException("RepoCache instance cannot be null.");
         }
         return repoCache;
     }
 
     /**
-     * @param koCache the koCache to set
+     * @param repoCache the koCache to set
      */
-    public void setKoCache(RepoCache koCache) {
-        this.repoCache = koCache;
+    public void setRepoCache(RepoCache repoCache) {
+        this.repoCache = repoCache;
     }
 
     public Map<String, Set<Edge>> getForwardRel() {

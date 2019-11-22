@@ -61,7 +61,7 @@ public class OctopusRunner extends AbstractRunner<Integer> {
             switch (gnode.getLabel()) {
                 case Vocabulary.SOURCE:
                     type = gnode.getType();
-                    AbstractExternalSource sourceIns = getKoCache().getSourceCache().get(type);
+                    AbstractExternalSource sourceIns = getRepoCache().getSourceCache().get(type);
                     AbstractExternalSource source = (AbstractExternalSource) sourceIns.newInstance(gnode);
 
                     String sourceUrl = source.getServiceUrl();
@@ -80,7 +80,7 @@ public class OctopusRunner extends AbstractRunner<Integer> {
 
                 case Vocabulary.PROCESSOR:
                     type = gnode.getType();
-                    AbstractProcessor processorIns = getKoCache().getProcessorCache().get(type);
+                    AbstractProcessor processorIns = getRepoCache().getProcessorCache().get(type);
                     AbstractProcessor processor = (AbstractProcessor) processorIns.newInstance(gnode);
                     
                     String procUrl = processor.getServiceUrl();
@@ -99,7 +99,7 @@ public class OctopusRunner extends AbstractRunner<Integer> {
                     break;
                 case Vocabulary.SINK:
                     type = gnode.getType();
-                    AbstractExternalSink sinkIns = getKoCache().getSinkCache().get(type);
+                    AbstractExternalSink sinkIns = getRepoCache().getSinkCache().get(type);
                     AbstractExternalSink sink = (AbstractExternalSink) sinkIns.newInstance(gnode);
                     
                     String sinkUrl = sink.getServiceUrl();

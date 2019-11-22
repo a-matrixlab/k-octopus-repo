@@ -26,6 +26,7 @@ import org.lisapark.koctopus.core.graph.Gnode;
 import org.lisapark.koctopus.core.graph.Graph;
 import org.lisapark.koctopus.core.graph.api.Vocabulary;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
+import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 import org.lisapark.koctopus.core.transport.redis.RedisTransport;
 import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
@@ -75,10 +76,9 @@ public class BaseExecutor {
         RedisTransport runtime = new RedisTransport(trnsUrl, System.out, System.err);
 
         try {
-            String type;
+            String type = gnode.getType();
             switch (gnode.getLabel()) {
                 case Vocabulary.SOURCE:
-                    type = gnode.getType();
                     AbstractExternalSource sourceIns = repoCache.getSourceCache().get(type);
                     AbstractExternalSource source = (AbstractExternalSource) sourceIns.newInstance(gnode);
                     result = new Gson().toJson(gnode);
@@ -86,7 +86,6 @@ public class BaseExecutor {
 
                     break;
                 case Vocabulary.PROCESSOR:
-                    type = gnode.getType();
                     AbstractProcessor processorIns = repoCache.getProcessorCache().get(type);
                     AbstractProcessor processor = (AbstractProcessor) processorIns.newInstance(gnode);
                     result = new Gson().toJson(gnode);
@@ -94,19 +93,17 @@ public class BaseExecutor {
 
                     break;
                 case Vocabulary.SINK:
-                    type = gnode.getType();
-                    ExternalSink sinkIns = repoCache.getSinkCache().get(type);
-                    ExternalSink sink = (ExternalSink) sinkIns.newInstance(gnode);
+                    AbstractExternalSink sinkIns = repoCache.getSinkCache().get(type);
+                    AbstractExternalSink sink = (AbstractExternalSink) sinkIns.newInstance(gnode);
                     result = new Gson().toJson(gnode);
                     sink.compile(sink).processEvent(runtime);
 
                     break;
                 case Vocabulary.MODEL:
                     Graph graph = (Graph) new Graph().fromJson(json);
-                    type = graph.getType();
-                    AbstractRunner runner = (AbstractRunner) Class.forName(type).newInstance();
+                    OctopusRunner runner = new OctopusRunner();
                     runner.setGraph(graph);
-                    runner.setKoCache(repoCache);
+                    runner.setRepoCache(repoCache);
                     runner.init();
                     result = new Gson().toJson((Gnode)graph, Gnode.class);
                     runner.execute();
@@ -115,7 +112,7 @@ public class BaseExecutor {
                 default:
                     break;
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ExecutionException ex) {
+        } catch (ExecutionException ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
         return result;
