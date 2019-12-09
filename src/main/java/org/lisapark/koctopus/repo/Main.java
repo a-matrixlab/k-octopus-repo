@@ -28,11 +28,6 @@ public class Main {
     private static final String[] REPO_PATH = {"file:///Users/alexmylnikov1/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar"};
 
     public synchronized static void main(String[] args) {
-//        String repositoryDir   = "/home/alexmy/.m2/repository";
-//        String groupId         = "k-octopus";
-//        String artifactId      = "k-octopus-processors";
-//        String artifactVersion = "0.7.3";
-//        String mainClassName   = "org.lisapark.koctopus.processors.processor.sma.SmaRedis";
 
         List<String> repoPathList = new ArrayList<>(Arrays.asList(REPO_PATH));
 
@@ -47,7 +42,6 @@ public class Main {
                             try {
                                 Class<?> clazz = classInfo.load();
                                 AbstractExternalSource source = (AbstractExternalSource) clazz.newInstance();
-                                System.out.println("SOURCE: " + classInfo + ": " + source.toJson());
                             } catch (InstantiationException | IllegalAccessException ex) {
                                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -72,20 +66,5 @@ public class Main {
                 LOG.log(Level.SEVERE, ex.getMessage());
             }
         });
-
-//        Class<String[]> aClass = String[].class;
-//        Method mainMethod = null;
-//        try {
-//            mainMethod = mainClass.getMethod("main", new Class[]{aClass});
-//        } catch (NoSuchMethodException e) {
-//            System.out.println("Main class does not contain a main(String[] args) method");
-//        }
-//        try {
-//            mainMethod.invoke(null, (Object) argsToMainMethod);
-//        } catch (IllegalAccessException e) {
-//            System.out.println("main(String[] args) method not accessible: " + e.getMessage());
-//        } catch (InvocationTargetException e) {
-//            System.out.println("Calling main(String[] args) failed: " + e.getMessage());
-//        }
     }
 }
