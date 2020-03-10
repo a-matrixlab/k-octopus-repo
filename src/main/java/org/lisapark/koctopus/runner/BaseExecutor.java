@@ -28,7 +28,6 @@ import org.lisapark.koctopus.core.graph.api.Vocabulary;
 import org.lisapark.koctopus.core.processor.AbstractProcessor;
 import org.lisapark.koctopus.core.sink.external.AbstractExternalSink;
 import org.lisapark.koctopus.core.transport.redis.RedisTransport;
-import org.lisapark.koctopus.core.sink.external.ExternalSink;
 import org.lisapark.koctopus.core.source.external.AbstractExternalSource;
 import org.lisapark.koctopus.repo.RepoCache;
 

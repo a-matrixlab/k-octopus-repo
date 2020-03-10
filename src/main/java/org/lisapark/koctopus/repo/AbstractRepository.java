@@ -33,7 +33,7 @@ import org.lisapark.koctopus.core.Repository;
 
 public abstract class AbstractRepository implements Repository {
 
-    static final String DEFAULT_REPO_PATH = "file:///home/alexmy/.m2/repository/k-octopus/k-octopus-processors/0.7.3/k-octopus-processors-0.7.3-jar-with-dependencies.jar";
+    static final String DEFAULT_REPO_PATH = "file:///home/alexmy/.m2/repository/k-octopus/k-octopus-processors/0.7.4/k-octopus-processors-0.7.4-jar-with-dependencies.jar";
 
     private static final Logger LOG = Logger.getLogger(AbstractRepository.class.getName());
 
